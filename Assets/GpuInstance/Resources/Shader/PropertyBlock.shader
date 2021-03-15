@@ -1,4 +1,4 @@
-﻿Shader "GpuInstance/PropertyBlock"
+﻿Shader "MyShader/GpuInstance/PropertyBlock"
 {
     Properties
     {
@@ -59,5 +59,5 @@
                 ENDCG
             }
         }
-        FallBack "Diffuse"
+            FallBack "Diffuse"
 }

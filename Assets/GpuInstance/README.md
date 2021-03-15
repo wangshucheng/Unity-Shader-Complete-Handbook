@@ -78,3 +78,8 @@ Shader "GpuInstance/PropertyBlock"
 }
 ```
 
+
+
+## 判断硬件支持GpuInstance
+
+SystemInfo.supportsInstancing
