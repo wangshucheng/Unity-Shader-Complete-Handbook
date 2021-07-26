@@ -44,3 +44,13 @@ Unity Shader 完全手册
 
 ## Shadow
 阴影
+
+
+
+# 引用
+
+- [ShaderLib/BlurEffect at master · llapuras/ShaderLib (github.com)](https://github.com/llapuras/ShaderLib)
+- [Awesome Unity Open Source on GitHub (800+)](https://github.com/baba-s/awesome-unity-open-source-on-github)·基础shader效果比较齐全的收藏repo，感谢整理！
+- [XPL: Unity引擎的高品质后处理库](https://github.com/QianMo/X-PostProcessing-Library)·浅墨大佬的后处理库
+- [HoloShield](https://github.com/AdultLink/HoloShield)·科幻风格shader(这大哥的几个repo都是挺科幻风的unity特效repo
+
