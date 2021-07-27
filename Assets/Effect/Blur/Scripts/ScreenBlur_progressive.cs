@@ -2,7 +2,7 @@
 using System;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
-public class BloomEffect : MonoBehaviour
+public class ScreenBlur_progressive : MonoBehaviour
 {
 
 	const int BoxDownPass = 0;
