@@ -72,3 +72,21 @@ Unity Shader 完全手册
 - [XPL: Unity引擎的高品质后处理库](https://github.com/QianMo/X-PostProcessing-Library)·浅墨大佬的后处理库
 - [HoloShield](https://github.com/AdultLink/HoloShield)·科幻风格shader(这大哥的几个repo都是挺科幻风的unity特效repo
 
+
+## 合并记录（FromUnityShader）
+
+本次将外部 UnityShader 资源合并到 `Assets/{Category}/FromUnityShader/` 分类目录下，并按功能分类整理。
+
+| 分类 | 文件数量 | 说明 |
+|------|----------|------|
+| Effect | 97 | 视觉特效：流体、水波、老电影、死亡、浮雕、描边、精灵动画、GodRay 等 |
+| PostProcessing | 85 | 后处理：抗锯齿、景深、HDR/Bloom、扭曲、复古 CRT、降噪等 |
+| PBR | 20 | 物理材质示例与演示模型 |
+| Lighting | 9 | 光照示例：顶点/像素漫反射 |
+| Cubemap | 5 | 立方体贴图反射 |
+| Animation | 1 | 着色器动画效果 |
+| Skybox | 10 | 天空盒/环境着色器 |
+| GeometryShader | 1 | 几何着色器示例 |
+| Other | 1 | 杂项资源与共享模型 |
+
+> 仅统计非 `.meta` 文件。Shader 数量请参见各分类下的 `README.md`。
