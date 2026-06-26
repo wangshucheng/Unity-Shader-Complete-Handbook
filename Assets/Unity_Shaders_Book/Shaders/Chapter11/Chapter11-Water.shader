@@ -19,14 +19,15 @@ Shader "Unity Shaders Book/Chapter 11/Water" {
 			Cull Off
 			
 			CGPROGRAM  
-			#pragma vertex vert 
+			#pragma target 3.0
+#pragma vertex vert 
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc" 
 			
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			fixed4 _Color;
+			half4 _Color;
 			float _Magnitude;
 			float _Frequency;
 			float _InvWaveLength;
@@ -56,8 +57,8 @@ Shader "Unity Shaders Book/Chapter 11/Water" {
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
-				fixed4 c = tex2D(_MainTex, i.uv);
+			half4 frag(v2f i) : SV_Target {
+				half4 c = tex2D(_MainTex, i.uv);
 				c.rgb *= _Color.rgb;
 				
 				return c;

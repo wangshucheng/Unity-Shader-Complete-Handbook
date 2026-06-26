@@ -13,6 +13,7 @@ Shader "Custom/Embossment" {
 			//Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
 				Blend SrcAlpha OneMinusSrcAlpha
 			CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
@@ -36,7 +37,7 @@ Shader "Custom/Embossment" {
 		float4 frag(v2f i) :COLOR
 		{//浮雕就是对图像上的一个像素和它右下的那个像素的色差的一种处理
 			float3 mc00mc = tex2D(_MainTex, i.uv_MainTex).rgb;//当前点的颜色
-			float3 mc11 = tex2D(_MainTex, i.uv_MainTex + fixed2(1,1) / _Size).rgb;//当前点右下角（偏移了（1,1）个单位）的点的颜色，
+			float3 mc11 = tex2D(_MainTex, i.uv_MainTex + half2(1,1) / _Size).rgb;//当前点右下角（偏移了（1,1）个单位）的点的颜色，
 																				  //由于CG函数tex2DSize函数（获取图片长宽的像素数）在unity中不能用，我也不知道用什么函数来替代它，就弄了个外部变量_Size方便调节
 
 			float3 diffs = abs(mc00mc - mc11);//diffs为亮点颜色差

@@ -31,6 +31,7 @@ Shader "Custom/eye Shading" {
 		Tags{ "LightMode" = "ForwardBase" }
 		Cull Back
 			CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"

@@ -25,7 +25,8 @@ Shader "Lapu/Wireframe"
 				Blend One OneMinusSrcAlpha
 				
 				CGPROGRAM
-				#pragma vertex vert
+				#pragma target 4.0
+#pragma vertex vert
 				#pragma geometry geom
 				#pragma fragment frag
 
@@ -118,7 +119,7 @@ Shader "Lapu/Wireframe"
 					triangleStream.Append(o);
 				}
 
-				fixed4 frag(g2f i) : SV_Target
+				half4 frag(g2f i) : SV_Target
 				{
 					float amountfactor = step(i.worldSpacePosition.y - _Amount * 4 + 2, 0);
 					float minDistanceToEdge = min(i.dist[0], min(i.dist[1], i.dist[2]));
@@ -128,12 +129,12 @@ Shader "Lapu/Wireframe"
 					// 快速筛选距离近的点，直接返回basecolor*tex，这里阈值设为0.9，以此减少后续步骤计算
 					if (minDistanceToEdge > 0.9)
 					{
-						return fixed4(baseColor.rgb,1) * _Opacity * amountfactor;
+						return half4(baseColor.rgb,1) * _Opacity * amountfactor;
 					}
 
 					// Smooth our line out
 					float t = exp2(_WireSmoothness * -1.0 * minDistanceToEdge * minDistanceToEdge);
-					fixed4 finalColor = lerp(baseColor, i.color, t) * amountfactor;
+					half4 finalColor = lerp(baseColor, i.color, t) * amountfactor;
 					finalColor.a = t * amountfactor;
 
 					return  i.color;

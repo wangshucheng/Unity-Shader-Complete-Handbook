@@ -69,7 +69,7 @@
 			struct v2f
 			{
 				float4 vertex   : SV_POSITION;
-				fixed4 color    : COLOR;
+				half4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
 				float4 worldPosition : TEXCOORD1;
 				float4 grabPos  : TEXCOORD2;
@@ -99,7 +99,7 @@
 				return OUT;
 			}
 
-			fixed4 frag(v2f IN) : SV_Target
+			half4 frag(v2f IN) : SV_Target
 			{
 				#if IS_BLUR_ALPHA_MASKED
 					half4 maskCol = tex2D(_MainTex, IN.texcoord);

@@ -118,7 +118,7 @@
 		half _Glossiness;
 		half _Metallic;
 		float _DissolveColorWidth, _Brightness, _Cutoff, _Smoothness;
-		fixed4 _Color, _DisColor;
+		half4 _Color, _DisColor;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -132,7 +132,7 @@
 		{
 			_DisAmount *= _Shrink;
 			// Main texture tinted by color
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+			half4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 
 			float3 blendNormal = saturate(pow(IN.worldNormal * 1.4, 4));
 

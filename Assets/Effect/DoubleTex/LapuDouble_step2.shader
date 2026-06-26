@@ -17,7 +17,8 @@
 
         CGPROGRAM
 
-        #pragma surface surf Lambert 
+        #pragma target 3.0
+#pragma surface surf Standard fullforwardshadows 
 
         float3 _Position; // from script
 

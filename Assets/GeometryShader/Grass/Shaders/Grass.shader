@@ -207,7 +207,7 @@ Shader "Roystan/Grass"
 			float4 _BottomColor;
 			float _TranslucentGain;
 
-			float4 frag (geometryOutput i,  fixed facing : VFACE) : SV_Target
+			float4 frag (geometryOutput i,  half facing : VFACE) : SV_Target
             {			
 				float3 normal = facing > 0 ? i.normal : -i.normal;
 

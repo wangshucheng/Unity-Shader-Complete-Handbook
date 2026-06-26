@@ -14,29 +14,30 @@
             Pass
             {
                 CGPROGRAM
-                #pragma vertex vert
+                #pragma target 3.0
+#pragma vertex vert
                 #pragma fragment frag
                 #include "UnityCG.cginc"
 
-                fixed4 _Color;
+                half4 _Color;
                 sampler2D _MainTex;
                 sampler2D _Noise;
-                fixed4 _EdgeColor;
+                half4 _EdgeColor;
                 float _EdgeWidth;
                 float _Cut;
 
                 struct a2v
                 {
-                    fixed4 vertex : POSITION;
-                    fixed3 normal : NORMAL;
-                    fixed4 texcoord : TEXCOORD0;
+                    half4 vertex : POSITION;
+                    half3 normal : NORMAL;
+                    half4 texcoord : TEXCOORD0;
                 };
                 struct v2f
                 {
-                    fixed4 pos : SV_POSITION;
-                    fixed2 uv : TEXCOORD0;
-                    fixed3 worldNormal : TEXCOORD1;
-                    fixed3 worldPos : TEXCOORD2;
+                    half4 pos : SV_POSITION;
+                    half2 uv : TEXCOORD0;
+                    half3 worldNormal : TEXCOORD1;
+                    half3 worldPos : TEXCOORD2;
                 };
 
                 v2f vert(a2v v)
@@ -48,7 +49,7 @@
                     o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                     return o;
                 }
-                fixed4 frag(v2f i) :SV_Target
+                half4 frag(v2f i) :SV_Target
                 {
                     float r = tex2D(_Noise, i.uv).r;
                     clip(r - _Cut);
@@ -56,17 +57,17 @@
                     {
                         return _EdgeColor;
                     }
-                    fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
+                    half3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
 
 
-                    fixed3 ambient = albedo * UNITY_LIGHTMODEL_AMBIENT.rgb;
+                    half3 ambient = albedo * UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-                    fixed3 l = normalize(_WorldSpaceLightPos0.xyz - _WorldSpaceLightPos0.w * i.worldPos);
+                    half3 l = normalize(_WorldSpaceLightPos0.xyz - _WorldSpaceLightPos0.w * i.worldPos);
                     float NdotL = max(0,dot(l, i.worldNormal));
 
-                    fixed3 diffuse = albedo * NdotL;
+                    half3 diffuse = albedo * NdotL;
 
-                    return fixed4(ambient + diffuse, 1);
+                    return half4(ambient + diffuse, 1);
                 }
                 ENDCG
             }

@@ -83,7 +83,7 @@ Shader "Custom/sufaceshaderYuan" {
 			if (length(v.normal * d) > _LengthCull)
 				v.vertex.xyz -= rand(v.vertex.xz)*v.normal*(2 * _LengthCull + 1) / ((1 + d)*(3.5 - 2 * _LengthCull));
 		}
-		fixed4 _Color;
+		half4 _Color;
 		sampler2D _MainTex;
 		sampler2D _NormalMap;
 
@@ -111,17 +111,17 @@ Shader "Custom/sufaceshaderYuan" {
 
 		struct SurfaceOutputHair
 		{
-			fixed3 Albedo;
-			fixed3 Normal;
-			fixed3 Emission;
-			fixed3 Specular;
-			fixed Gloss;
-			fixed Alpha;
+			half3 Albedo;
+			half3 Normal;
+			half3 Emission;
+			half3 Specular;
+			half Gloss;
+			half Alpha;
 			float3 n2;
 
 		};
 
-		inline fixed4 LightingHairShader(SurfaceOutputHair s, fixed3 lightDir, fixed3 viewDir, fixed atten)
+		inline half4 LightingHairShader(SurfaceOutputHair s, half3 lightDir, half3 viewDir, half atten)
 		{
 			viewDir = normalize(viewDir);
 			lightDir = normalize(lightDir);
@@ -134,7 +134,7 @@ Shader "Custom/sufaceshaderYuan" {
 			float spec = pow(specBase, 10) *(_GL + 0.2);
 			spec = lerp(0, 0.8, spec);
 
-			fixed4 c = 1;
+			half4 c = 1;
 			c.rgb = (s.Albedo * _LightColor0.rgb * atten) +
 				frontRim* _FrontRimColor * _FrontRimPow*atten +
 				BackRim * _BackRimColor * _BackRimPow*atten +

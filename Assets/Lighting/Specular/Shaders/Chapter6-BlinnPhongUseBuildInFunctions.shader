@@ -10,13 +10,14 @@
 		
 			CGPROGRAM
 			
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			
 			#include "Lighting.cginc"
 			
-			fixed4 _Diffuse;
-			fixed4 _Specular;
+			half4 _Diffuse;
+			half4 _Specular;
 			float _Gloss;
 			
 			struct a2v {
@@ -42,23 +43,23 @@
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
-				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+			half4 frag(v2f i) : SV_Target {
+				half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 				
-				fixed3 worldNormal = normalize(i.worldNormal);
+				half3 worldNormal = normalize(i.worldNormal);
 				//  Use the build-in funtion to compute the light direction in world space
 				// Remember to normalize the result
-				fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+				half3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				
-				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * max(0, dot(worldNormal, worldLightDir));
+				half3 diffuse = _LightColor0.rgb * _Diffuse.rgb * max(0, dot(worldNormal, worldLightDir));
 				
 				// Use the build-in funtion to compute the view direction in world space
 				// Remember to normalize the result
-				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-				fixed3 halfDir = normalize(worldLightDir + viewDir);
-				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
+				half3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
+				half3 halfDir = normalize(worldLightDir + viewDir);
+				half3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
 				
-				return fixed4(ambient + diffuse + specular, 1.0);
+				return half4(ambient + diffuse + specular, 1.0);
 			}
 			
 			ENDCG

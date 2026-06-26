@@ -6,7 +6,8 @@
 			CGPROGRAM
 
 			//声明顶点着色器和片段着色器
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 
 			//包含头文件
@@ -32,12 +33,12 @@
 			}
 
 			//定义片段着色器
-			fixed4 frag(vsOutput i) : SV_Target{
+			half4 frag(vsOutput i) : SV_Target{
 				float depth = i.depth.x / i.depth.y;//把z值深度从视口坐标转换为齐次坐标（除以w值）
 				/*
 					调用EncodeFloatRGBA将float类型的深度转换成RGBA4个分量的颜色值
 				*/
-				fixed4 col = EncodeFloatRGBA(depth);
+				half4 col = EncodeFloatRGBA(depth);
 				return col;
 			}
 

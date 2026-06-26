@@ -25,6 +25,7 @@ Shader "Custom/Conventional geometry-aware ﬁltering" {
 		pass{
 		Tags{ "RenderType" = "Opaque" }
 		CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 
@@ -88,8 +89,8 @@ Shader "Custom/Conventional geometry-aware ﬁltering" {
 
 			float2 i_ = i.uv_MainTex;
 
-			float2 j1 = i.uv_MainTex + fixed2(1, -1) / _inten;
-			float2 j2 = i.uv_MainTex + fixed2(1, 1) / _inten;
+			float2 j1 = i.uv_MainTex + half2(1, -1) / _inten;
+			float2 j2 = i.uv_MainTex + half2(1, 1) / _inten;
 
 			float wz = Gaussian(GetDepth(i_) - GetDepth(i_), _Sigma_z);
 			float wn = Gaussian(GetNormal(i_) - GetNormal(i_), _Sigma_z);

@@ -14,7 +14,8 @@ Shader "Custom/toon" {
 		Cull Front
 		ZWrite On
 		CGPROGRAM
-		#pragma vertex vert
+		#pragma target 3.0
+#pragma vertex vert
 		#pragma fragment frag
 		#include "UnityCG.cginc"
 		float _Outline;

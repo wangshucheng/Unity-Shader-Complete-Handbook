@@ -32,7 +32,8 @@
 
 
             #pragma multi_compile_fwdbase_fullshadows
-            #pragma vertex vert
+            #pragma target 3.0
+#pragma vertex vert
             #pragma fragment frag
              #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
             // make fog work
@@ -59,7 +60,7 @@
                 float3 normalDir :TEXCOORD2;
                 float3 tangentDir : TEXCOORD3;
                 float3 bittangentDir : TEXCOORD4;
-                fixed3 ambient : COLOR0;
+                half3 ambient : COLOR0;
                 LIGHTING_COORDS(5,6)
                 //SHADOW_COORDS(7)
                 //SHADOW_COORDS(7)
@@ -88,7 +89,7 @@
                 
                 float3 TangentVD = tangentT;
                 // float3 TangentColor = TangentVD.rgb;
-                //fixed4 finalTangentColor = fixed4(TangentColor,1);//viewDir.xyz,1
+                //half4 finalTangentColor = half4(TangentColor,1);//viewDir.xyz,1
 
 
                 //用于控制迭代层数
@@ -216,7 +217,7 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {   
                float attenuation = LIGHT_ATTENUATION(i);
 
@@ -319,7 +320,7 @@
                 float3 finalColor =
                 ((
                 
-                DiffuseReflection * (i.ambient + fixed3(G,G,G)*attenuation*_LightColor0.rgb*SelfShadow) * (1-me) *(1-F)      //漫反射
+                DiffuseReflection * (i.ambient + half3(G,G,G)*attenuation*_LightColor0.rgb*SelfShadow) * (1-me) *(1-F)      //漫反射
                 // /PI   //能量守恒？？？？？？
                 + DGF*attenuation*_LightColor0.rgb *SelfShadow
                 + skyColor * F *saturate(1-r1)    //这边1是瞎配的
@@ -334,7 +335,7 @@
                 *AO
                 
                 ;
-                // fixed shadow = SHADOW_ATTENUATION(i);
+                // half shadow = SHADOW_ATTENUATION(i);
                
 
 
@@ -342,14 +343,14 @@
                 
                 
 
-                //fixed4 f = fixed4 (finalColor.r,0,0,1);
+                //half4 f = half4 (finalColor.r,0,0,1);
 
                 //float3 viewDir = normalize(UnityWorldSpaceViewDir);
-                return fixed4(finalColor,1);
-                // return fixed4(po,0,1);
+                return half4(finalColor,1);
+                // return half4(po,0,1);
                 // return SelfShadow;
-                // return fixed4(DiffuseReflection * (i.ambient + fixed3(G,G,G)) /PI,1);
-                // return fixed4(TangentLD,1);
+                // return half4(DiffuseReflection * (i.ambient + half3(G,G,G)) /PI,1);
+                // return half4(TangentLD,1);
             }
 
             

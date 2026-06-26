@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'unity_ObjectToWorld' with 'unity_ObjectToWorld'
 
 /*
 *Hi, I'm Lin Dong,
@@ -104,7 +104,7 @@ Shader "Custom/HumanSkin_plus" {
 			float4 tangent : TANGENT;
 			float3 normal : NORMAL;
 			float2 texcoord : TEXCOORD0;
-			fixed4 color : COLOR;
+			half4 color : COLOR;
 		};
 		v2f vert(appdata_full v) {
 			v2f o;
@@ -229,7 +229,7 @@ Shader "Custom/HumanSkin_plus" {
 			float3 w_P = 0;
 			for (int i = 0; i < 30; i++)
 			{
-				w_P = normalize(float3(n2.x + rand(fixed2(i*0.05, i*0.05)), n2.y + rand(fixed2(-i*0.05, i*0.05)), n2.z + rand(fixed2(i*0.05, -i*0.05))));
+				w_P = normalize(float3(n2.x + rand(half2(i*0.05, i*0.05)), n2.y + rand(half2(-i*0.05, i*0.05)), n2.z + rand(half2(i*0.05, -i*0.05))));
 
 				Q += phase(dot(-lightDir, w_P))*Lri(w_P, phi_x, p_L_Dist, D);
 				Q *= _Sigma_S;

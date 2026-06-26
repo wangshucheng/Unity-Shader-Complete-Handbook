@@ -35,8 +35,8 @@
 				float3 norg:NORMAL;
 			};
 			float _Length;
-			fixed4 _LightColor0;
-			fixed4 _Color;
+			half4 _LightColor0;
+			half4 _Color;
 			v2g vert(appdata_base v)
 			{
 				v2g o;
@@ -77,7 +77,7 @@
 			ADD_TRI(v0,v1,v3,o,tristream);
 			ADD_TRI(v2,v3,v1,o,tristream);
 		} 
-			fixed4 frag (g2f i) : SV_Target
+			half4 frag (g2f i) : SV_Target
 			{
 			//实现简单的Lambert光照
 			   float3 LightDir = normalize(_WorldSpaceLightPos0.xyz);

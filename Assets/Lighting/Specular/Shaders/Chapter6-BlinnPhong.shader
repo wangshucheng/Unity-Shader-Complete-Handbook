@@ -10,13 +10,14 @@
 		
 			CGPROGRAM
 			
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			
 			#include "Lighting.cginc"
 			
-			fixed4 _Diffuse;
-			fixed4 _Specular;
+			half4 _Diffuse;
+			half4 _Specular;
 			float _Gloss;
 			
 			struct a2v {
@@ -44,24 +45,24 @@
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
+			half4 frag(v2f i) : SV_Target {
 				// Get ambient term
-				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+				half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 				
-				fixed3 worldNormal = normalize(i.worldNormal);
-				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+				half3 worldNormal = normalize(i.worldNormal);
+				half3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
 				
 				// Compute diffuse term
-				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * max(0, dot(worldNormal, worldLightDir));
+				half3 diffuse = _LightColor0.rgb * _Diffuse.rgb * max(0, dot(worldNormal, worldLightDir));
 				
 				// Get the view direction in world space
-				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+				half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
 				// Get the half direction in world space
-				fixed3 halfDir = normalize(worldLightDir + viewDir);
+				half3 halfDir = normalize(worldLightDir + viewDir);
 				// Compute specular term
-				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
+				half3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
 				
-				return fixed4(ambient + diffuse + specular, 1.0);
+				return half4(ambient + diffuse + specular, 1.0);
 			}
 			
 			ENDCG

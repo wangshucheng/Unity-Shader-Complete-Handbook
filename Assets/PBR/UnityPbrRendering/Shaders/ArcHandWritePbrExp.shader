@@ -67,7 +67,7 @@
 				return F0 + (max(float3(1 ,1, 1) * (1 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 			}
 
-			fixed4 frag(v2f i) : SV_Target
+			half4 frag(v2f i) : SV_Target
 			{
 				i.normal = normalize(i.normal);
 				float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);

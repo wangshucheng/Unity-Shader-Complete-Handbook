@@ -20,7 +20,8 @@ Shader "MyShader/DarkMaskShader"
 		{
 			CGPROGRAM
 
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			#include "UnityCG.cginc"
  
@@ -51,7 +52,7 @@ Shader "MyShader/DarkMaskShader"
 				return o;
 			}
  
-			fixed4 frag (v2f i) : SV_Target
+			half4 frag (v2f i) : SV_Target
 			{
 				//以高度为基准，获取屏幕宽高的缩放比值
 				float2 widthHightScale = float2(_ScreenParams.x/_ScreenParams.y,1);
@@ -66,11 +67,11 @@ Shader "MyShader/DarkMaskShader"
 				float distance = length(dir * widthHightScale);
 
 				//4.判断是否在圆上
-				//fixed isZoomArea = 1 - step(_CircleRadius,distance);
+				//half isZoomArea = 1 - step(_CircleRadius,distance);
 				float isZoomArea = smoothstep(_CircleRadius + _CircleEdgeStrength,_CircleRadius,distance);
 				                         
-				fixed4 col = tex2D(_MainTex, i.uv);  
-				return col * fixed4(isZoomArea,isZoomArea,isZoomArea,1.0);
+				half4 col = tex2D(_MainTex, i.uv);  
+				return col * half4(isZoomArea,isZoomArea,isZoomArea,1.0);
 			}
 
 		ENDCG

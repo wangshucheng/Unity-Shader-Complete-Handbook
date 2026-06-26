@@ -13,6 +13,7 @@ Shader "Custom/HDRGlow" {
 			Tags{ "LightMode" = "ForwardBase" }
 			Cull off
 				CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
@@ -46,61 +47,61 @@ Shader "Custom/HDRGlow" {
 			float4 frag(v2f i) :COLOR
 			{
 				//Bloom
-				float3 mc00 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, 3) / _inten).rgb;
-				float3 mc10 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, 3) / _inten).rgb;
-				float3 mc20 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, 3) / _inten).rgb;
-				float3 mc30 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, 3) / _inten).rgb;
-				float3 mc40 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, 3) / _inten).rgb;
-				float3 mc50 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, 3) / _inten).rgb;
-				float3 mc60 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, 3) / _inten).rgb;
+				float3 mc00 = tex2D(_MainTex, i.uv_MainTex - half2(3, 3) / _inten).rgb;
+				float3 mc10 = tex2D(_MainTex, i.uv_MainTex - half2(2, 3) / _inten).rgb;
+				float3 mc20 = tex2D(_MainTex, i.uv_MainTex - half2(1, 3) / _inten).rgb;
+				float3 mc30 = tex2D(_MainTex, i.uv_MainTex - half2(0, 3) / _inten).rgb;
+				float3 mc40 = tex2D(_MainTex, i.uv_MainTex - half2(-1, 3) / _inten).rgb;
+				float3 mc50 = tex2D(_MainTex, i.uv_MainTex - half2(-2, 3) / _inten).rgb;
+				float3 mc60 = tex2D(_MainTex, i.uv_MainTex - half2(-3, 3) / _inten).rgb;
 
-				float3 mc01 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, 2) / _inten).rgb;
-				float3 mc11 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, 2) / _inten).rgb;
-				float3 mc21 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, 2) / _inten).rgb;
-				float3 mc31 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, 2) / _inten).rgb;
-				float3 mc41 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, 2) / _inten).rgb;
-				float3 mc51 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, 2) / _inten).rgb;
-				float3 mc61 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, 2) / _inten).rgb;
+				float3 mc01 = tex2D(_MainTex, i.uv_MainTex - half2(3, 2) / _inten).rgb;
+				float3 mc11 = tex2D(_MainTex, i.uv_MainTex - half2(2, 2) / _inten).rgb;
+				float3 mc21 = tex2D(_MainTex, i.uv_MainTex - half2(1, 2) / _inten).rgb;
+				float3 mc31 = tex2D(_MainTex, i.uv_MainTex - half2(0, 2) / _inten).rgb;
+				float3 mc41 = tex2D(_MainTex, i.uv_MainTex - half2(-1, 2) / _inten).rgb;
+				float3 mc51 = tex2D(_MainTex, i.uv_MainTex - half2(-2, 2) / _inten).rgb;
+				float3 mc61 = tex2D(_MainTex, i.uv_MainTex - half2(-3, 2) / _inten).rgb;
 
-				float3 mc02 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, 1) / _inten).rgb;
-				float3 mc12 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, 1) / _inten).rgb;
-				float3 mc22 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, 1) / _inten).rgb;
-				float3 mc32 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, 1) / _inten).rgb;
-				float3 mc42 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, 1) / _inten).rgb;
-				float3 mc52 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, 1) / _inten).rgb;
-				float3 mc62 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, 1) / _inten).rgb;
+				float3 mc02 = tex2D(_MainTex, i.uv_MainTex - half2(3, 1) / _inten).rgb;
+				float3 mc12 = tex2D(_MainTex, i.uv_MainTex - half2(2, 1) / _inten).rgb;
+				float3 mc22 = tex2D(_MainTex, i.uv_MainTex - half2(1, 1) / _inten).rgb;
+				float3 mc32 = tex2D(_MainTex, i.uv_MainTex - half2(0, 1) / _inten).rgb;
+				float3 mc42 = tex2D(_MainTex, i.uv_MainTex - half2(-1, 1) / _inten).rgb;
+				float3 mc52 = tex2D(_MainTex, i.uv_MainTex - half2(-2, 1) / _inten).rgb;
+				float3 mc62 = tex2D(_MainTex, i.uv_MainTex - half2(-3, 1) / _inten).rgb;
 
-				float3 mc03 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, 0) / _inten).rgb;
-				float3 mc13 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, 0) / _inten).rgb;
-				float3 mc23 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, 0) / _inten).rgb;
+				float3 mc03 = tex2D(_MainTex, i.uv_MainTex - half2(3, 0) / _inten).rgb;
+				float3 mc13 = tex2D(_MainTex, i.uv_MainTex - half2(2, 0) / _inten).rgb;
+				float3 mc23 = tex2D(_MainTex, i.uv_MainTex - half2(1, 0) / _inten).rgb;
 				float3 mc33mc = tex2D(_MainTex, i.uv_MainTex).rgb;
-				float3 mc43 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, 0) / _inten).rgb;
-				float3 mc53 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, 0) / _inten).rgb;
-				float3 mc63 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, 0) / _inten).rgb;
+				float3 mc43 = tex2D(_MainTex, i.uv_MainTex - half2(-1, 0) / _inten).rgb;
+				float3 mc53 = tex2D(_MainTex, i.uv_MainTex - half2(-2, 0) / _inten).rgb;
+				float3 mc63 = tex2D(_MainTex, i.uv_MainTex - half2(-3, 0) / _inten).rgb;
 
-				float3 mc04 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, -1) / _inten).rgb;
-				float3 mc14 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, -1) / _inten).rgb;
-				float3 mc24 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, -1) / _inten).rgb;
-				float3 mc34 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, -1) / _inten).rgb;
-				float3 mc44 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, -1) / _inten).rgb;
-				float3 mc54 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, -1) / _inten).rgb;
-				float3 mc64 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, -1) / _inten).rgb;
+				float3 mc04 = tex2D(_MainTex, i.uv_MainTex - half2(3, -1) / _inten).rgb;
+				float3 mc14 = tex2D(_MainTex, i.uv_MainTex - half2(2, -1) / _inten).rgb;
+				float3 mc24 = tex2D(_MainTex, i.uv_MainTex - half2(1, -1) / _inten).rgb;
+				float3 mc34 = tex2D(_MainTex, i.uv_MainTex - half2(0, -1) / _inten).rgb;
+				float3 mc44 = tex2D(_MainTex, i.uv_MainTex - half2(-1, -1) / _inten).rgb;
+				float3 mc54 = tex2D(_MainTex, i.uv_MainTex - half2(-2, -1) / _inten).rgb;
+				float3 mc64 = tex2D(_MainTex, i.uv_MainTex - half2(-3, -1) / _inten).rgb;
 
-				float3 mc05 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, -2) / _inten).rgb;
-				float3 mc15 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, -2) / _inten).rgb;
-				float3 mc25 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, -2) / _inten).rgb;
-				float3 mc35 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, -2) / _inten).rgb;
-				float3 mc45 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, -2) / _inten).rgb;
-				float3 mc55 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, -2) / _inten).rgb;
-				float3 mc65 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, -2) / _inten).rgb;
+				float3 mc05 = tex2D(_MainTex, i.uv_MainTex - half2(3, -2) / _inten).rgb;
+				float3 mc15 = tex2D(_MainTex, i.uv_MainTex - half2(2, -2) / _inten).rgb;
+				float3 mc25 = tex2D(_MainTex, i.uv_MainTex - half2(1, -2) / _inten).rgb;
+				float3 mc35 = tex2D(_MainTex, i.uv_MainTex - half2(0, -2) / _inten).rgb;
+				float3 mc45 = tex2D(_MainTex, i.uv_MainTex - half2(-1, -2) / _inten).rgb;
+				float3 mc55 = tex2D(_MainTex, i.uv_MainTex - half2(-2, -2) / _inten).rgb;
+				float3 mc65 = tex2D(_MainTex, i.uv_MainTex - half2(-3, -2) / _inten).rgb;
 
-				float3 mc06 = tex2D(_MainTex, i.uv_MainTex - fixed2(3, -3) / _inten).rgb;
-				float3 mc16 = tex2D(_MainTex, i.uv_MainTex - fixed2(2, -3) / _inten).rgb;
-				float3 mc26 = tex2D(_MainTex, i.uv_MainTex - fixed2(1, -3) / _inten).rgb;
-				float3 mc36 = tex2D(_MainTex, i.uv_MainTex - fixed2(0, -3) / _inten).rgb;
-				float3 mc46 = tex2D(_MainTex, i.uv_MainTex - fixed2(-1, -3) / _inten).rgb;
-				float3 mc56 = tex2D(_MainTex, i.uv_MainTex - fixed2(-2, -3) / _inten).rgb;
-				float3 mc66 = tex2D(_MainTex, i.uv_MainTex - fixed2(-3, -3) / _inten).rgb;
+				float3 mc06 = tex2D(_MainTex, i.uv_MainTex - half2(3, -3) / _inten).rgb;
+				float3 mc16 = tex2D(_MainTex, i.uv_MainTex - half2(2, -3) / _inten).rgb;
+				float3 mc26 = tex2D(_MainTex, i.uv_MainTex - half2(1, -3) / _inten).rgb;
+				float3 mc36 = tex2D(_MainTex, i.uv_MainTex - half2(0, -3) / _inten).rgb;
+				float3 mc46 = tex2D(_MainTex, i.uv_MainTex - half2(-1, -3) / _inten).rgb;
+				float3 mc56 = tex2D(_MainTex, i.uv_MainTex - half2(-2, -3) / _inten).rgb;
+				float3 mc66 = tex2D(_MainTex, i.uv_MainTex - half2(-3, -3) / _inten).rgb;
 				float3 c = 0;
 
 				c += (mc00 + mc60 + mc06 + mc66);//4

@@ -9,7 +9,7 @@
 		#include "UnityCG.cginc"
 		
 		sampler2D _MainTex;
-		fixed _BlurAmount;
+		half _BlurAmount;
 		
 		struct v2f {
 			float4 pos : SV_POSITION;
@@ -26,8 +26,8 @@
 			return o;
 		}
 		
-		fixed4 fragRGB (v2f i) : SV_Target {
-			return fixed4(tex2D(_MainTex, i.uv).rgb, _BlurAmount);
+		half4 fragRGB (v2f i) : SV_Target {
+			return half4(tex2D(_MainTex, i.uv).rgb, _BlurAmount);
 		}
 		
 		half4 fragA (v2f i) : SV_Target {
@@ -44,7 +44,8 @@
 			
 			CGPROGRAM
 			
-			#pragma vertex vert  
+			#pragma target 3.0
+#pragma vertex vert  
 			#pragma fragment fragRGB  
 			
 			ENDCG

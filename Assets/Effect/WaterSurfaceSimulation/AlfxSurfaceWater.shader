@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+﻿// Upgrade NOTE: replaced 'unity_ObjectToWorld' with 'unity_ObjectToWorld'
 
 Shader "Lapu/AlfxWater"
 {
@@ -96,7 +96,8 @@ Shader "Lapu/AlfxWater"
 			Pass
 			{
 				CGPROGRAM
-				#pragma vertex vert
+				#pragma target 3.0
+#pragma vertex vert
 				#pragma fragment frag
 				#include "UnityCG.cginc"
 				#include "Lighting.cginc"
@@ -345,7 +346,7 @@ Shader "Lapu/AlfxWater"
 					return final.x;
 				}
 
-				fixed4 frag(v2f i) : SV_Target
+				half4 frag(v2f i) : SV_Target
 				{
 					float4 lightColor = _LightColor0.rgba;
 					float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);

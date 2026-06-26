@@ -22,42 +22,43 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 	SubShader{
 		pass{
 		CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
 #include "MyFunc.cginc"
 		sampler2D _CameraNormalsTexture;
 		sampler2D _CameraDepthNormalsTexture;
-		fixed4 _CameraDepthNormalsTexture_ST;
+		half4 _CameraDepthNormalsTexture_ST;
 
 		sampler2D _CameraDepthTexture;
-		fixed4 _CameraDepthTexture_ST;
-		fixed4 _Color;
+		half4 _CameraDepthTexture_ST;
+		half4 _Color;
 		float4x4 _ViewProjectInverse;
-		fixed _inten;
-		fixed _Tau;
-		fixed _Beta;
+		half _inten;
+		half _Tau;
+		half _Beta;
 		float4 _SC;
 		float _GL;
 
 
 		uniform sampler2D _MainTex;
-		fixed4 _MainTex_ST;
+		half4 _MainTex_ST;
 #define PIE 3.1415926535	
 #define	E 2.718281828459
 		struct v2f {
-			fixed4 pos : SV_POSITION;
-			fixed2 uv_MainTex : TEXCOORD0;
-			fixed2 uv_CN : TEXCOORD1;
+			half4 pos : SV_POSITION;
+			half2 uv_MainTex : TEXCOORD0;
+			half2 uv_CN : TEXCOORD1;
 			float3 lightDir : TEXCOORD2;
 			float3 viewDir : TEXCOORD3;
-			fixed4 screen : TEXCOORD4;
+			half4 screen : TEXCOORD4;
 		};
 		v2f vert(appdata_full v) {
 			v2f o;
 			o.lightDir = ObjSpaceLightDir(v.vertex);
 			o.viewDir = WorldSpaceViewDir(v.vertex);
-			fixed3 worldUp = fixed3(0, 1, 0);
+			half3 worldUp = half3(0, 1, 0);
 			o.viewDir = o.viewDir - worldUp * dot(o.viewDir, worldUp);
 
 			o.pos = UnityObjectToClipPos(v.vertex);
@@ -70,9 +71,9 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 		}
 
 
-		fixed Ci(float ai, fixed Y, fixed x, fixed uv_now, fixed uv_tar)
+		half Ci(float ai, half Y, half x, half uv_now, half uv_tar)
 		{
-			fixed ci = 0;
+			half ci = 0;
 
 			++x;
 			for (int i = 0 * x; i < 10 * x; i++)
@@ -82,14 +83,14 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 			}
 			return ci;
 		}
-		fixed Pi(float ai, fixed Y, fixed x, fixed uv_now, fixed uv_tar)
+		half Pi(float ai, half Y, half x, half uv_now, half uv_tar)
 		{
 			return  Ci(ai, Y, 1, uv_now, uv_tar);
-			fixed pi = 0;
+			half pi = 0;
 
 			++x;
-			fixed ci = Ci(ai, Y, x, uv_now, uv_tar);
-			fixed ci_i = 0;
+			half ci = Ci(ai, Y, x, uv_now, uv_tar);
+			half ci_i = 0;
 			for (int i = 0 * x; i < 10 * x; i++)
 			{
 				x = i;
@@ -99,12 +100,12 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 			pi = ci / (sqrt(pi) + 1);
 			return pi;
 		}
-		fixed Qij(float ai, fixed Y, fixed uv_now_i, fixed uv_tar_i, fixed uv_now_j, fixed uv_tar_j)
+		half Qij(float ai, half Y, half uv_now_i, half uv_tar_i, half uv_now_j, half uv_tar_j)
 		{
 			return  Pi(ai, Y, 1, uv_now_i, uv_tar_i)* Pi(ai, Y, 1, uv_now_j, uv_tar_j);
-			fixed Qi = 0;
-			fixed Qj = 0;
-			fixed Qall = 0;
+			half Qi = 0;
+			half Qj = 0;
+			half Qall = 0;
 			for (int i = 1; i < 10; i++)
 			{
 				Qi += Pi(ai, Y, i, uv_now_i, uv_tar_i);
@@ -113,9 +114,9 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 			}
 			return Qall;
 		}
-		fixed  Delta_2(fixed x_a)
+		half  Delta_2(half x_a)
 		{
-			fixed del = 0;
+			half del = 0;
 			for (int i = -40; i < 40; i += 2)
 			{
 				del += pow(E, i*x_a);
@@ -143,7 +144,7 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 			float4 D = mul(_ViewProjectInverse, H);
 			return D / D.w;
 		}
-		fixed4 frag(v2f i) :COLOR
+		half4 frag(v2f i) :COLOR
 		{
 			float3 viewDir = _WorldSpaceCameraPos - SamplePositionMap(i.uv_MainTex).xyz;
 
@@ -159,10 +160,10 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 
 			float ai = v * max(dot(N, lightDir), 0);
 
-			fixed2 j2 = i.uv_MainTex + fixed2(1, 1) / _inten;
-			fixed2 j3 = i.uv_MainTex + fixed2(1, -1) / _inten;
-			fixed2 j4 = i.uv_MainTex + fixed2(-1, 1) / _inten;
-			fixed2 j5 = i.uv_MainTex + fixed2(-1, -1) / _inten;
+			half2 j2 = i.uv_MainTex + half2(1, 1) / _inten;
+			half2 j3 = i.uv_MainTex + half2(1, -1) / _inten;
+			half2 j4 = i.uv_MainTex + half2(-1, 1) / _inten;
+			half2 j5 = i.uv_MainTex + half2(-1, -1) / _inten;
 
 
 			viewDir = _WorldSpaceCameraPos - SamplePositionMap(j2).xyz;
@@ -254,12 +255,12 @@ Shader "Custom/Specular Lobe-Aware Filtering and Upsampling" {
 			I5 = (lum5)*ai* Delta_2(-1 / _inten) * 2;
 			I5 += (lum5)*ai;
 
-			fixed w = pow(Qij(ai, I, i.uv_MainTex.x, i.uv_MainTex.x, i.uv_MainTex.y, i.uv_MainTex.y), _Beta);
-			fixed w2 = pow(Qij(ai2, I, i.uv_MainTex.x, j2.x, i.uv_MainTex.y, j2.y), _Beta);
-			//	fixed w3 = pow(Qij(ai3, I, i.uv_MainTex.x, j3.x, i.uv_MainTex.y, j3.y), _Beta);
+			half w = pow(Qij(ai, I, i.uv_MainTex.x, i.uv_MainTex.x, i.uv_MainTex.y, i.uv_MainTex.y), _Beta);
+			half w2 = pow(Qij(ai2, I, i.uv_MainTex.x, j2.x, i.uv_MainTex.y, j2.y), _Beta);
+			//	half w3 = pow(Qij(ai3, I, i.uv_MainTex.x, j3.x, i.uv_MainTex.y, j3.y), _Beta);
 
-			//	fixed w4 = pow(Qij(ai4, I, i.uv_MainTex.x, j4.x, i.uv_MainTex.y, j4.y), _Beta);
-			//	fixed w5 = pow(Qij(ai5, I, i.uv_MainTex.x, j5.x, i.uv_MainTex.y, j5.y), _Beta);
+			//	half w4 = pow(Qij(ai4, I, i.uv_MainTex.x, j4.x, i.uv_MainTex.y, j4.y), _Beta);
+			//	half w5 = pow(Qij(ai5, I, i.uv_MainTex.x, j5.x, i.uv_MainTex.y, j5.y), _Beta);
 
 
 			if (GetDepth(i.uv_MainTex) > 0.74)

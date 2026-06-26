@@ -24,7 +24,7 @@
 
 			CGPROGRAM
 			#include "UnityCG.cginc"
-			fixed4 _OutlineColor;
+			half4 _OutlineColor;
 			float _OutlineLength;
 
 			struct v2f
@@ -48,13 +48,14 @@
 				return o;
 			}
 
-			fixed4 frag(v2f i) : SV_Target
+			half4 frag(v2f i) : SV_Target
 			{
 				//这个Pass直接输出描边颜色
 				return _OutlineColor;
 			}
 
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			ENDCG
 		}
@@ -66,11 +67,11 @@
 
 				#include "Lighting.cginc"
 
-				fixed4 _Diffuse;
+				half4 _Diffuse;
 				sampler2D _MainTex;
 				//使用了TRANSFROM_TEX宏就需要定义XXX_ST
 				float4 _MainTex_ST;
-				fixed4 _Specular;
+				half4 _Specular;
 				float _Gloss;
 
 				struct v2f
@@ -92,17 +93,17 @@
 					return o;
 				}
 
-				fixed4 frag(v2f i) : SV_Target
+				half4 frag(v2f i) : SV_Target
 				{
 
-					fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
-					fixed3 worldNormal = normalize(i.worldNormal);
-					fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
-					fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
-					fixed3 halfDir = normalize(viewDir + worldLightDir);
-					fixed3 specular = _Specular * pow(saturate(dot(halfDir, worldNormal)), _Gloss);
-					fixed3 diffuse = _LightColor0.xyz * _Diffuse * saturate(dot(worldNormal, worldLightDir));
-					fixed4 color = tex2D(_MainTex, i.uv);
+					half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+					half3 worldNormal = normalize(i.worldNormal);
+					half3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+					half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+					half3 halfDir = normalize(viewDir + worldLightDir);
+					half3 specular = _Specular * pow(saturate(dot(halfDir, worldNormal)), _Gloss);
+					half3 diffuse = _LightColor0.xyz * _Diffuse * saturate(dot(worldNormal, worldLightDir));
+					half4 color = tex2D(_MainTex, i.uv);
 					color.rgb = color.rgb * diffuse + ambient;
 					return color;
 				}

@@ -26,7 +26,8 @@
 			Pass
 			{
 				CGPROGRAM
-				#pragma vertex vert
+				#pragma target 3.0
+#pragma vertex vert
 				#pragma fragment frag	
 				#include "UnityCG.cginc"
 
@@ -65,7 +66,7 @@
 					return o;
 				}
 
-				fixed4 frag(v2f i) : SV_Target
+				half4 frag(v2f i) : SV_Target
 				{
 					float2 dism = UnpackNormal(tex2D(_DistortionMap, i.dismap + (_Time.x * 0.2)));
 					float2 offset = dism * (_DistortionFactor * 10) * _GrabTexture_TexelSize.xy * 10;

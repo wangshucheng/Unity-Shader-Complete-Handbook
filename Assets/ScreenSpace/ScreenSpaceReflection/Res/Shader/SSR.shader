@@ -17,14 +17,15 @@
         {
 
             CGPROGRAM
-            #pragma vertex vert
+            #pragma target 3.0
+#pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
 
-            fixed4 _Color;
+            half4 _Color;
             sampler2D _CameraDepthTexture; //深度图
             sampler2D _GrabTexture; //屏幕图片
             sampler2D _BumpMap; //法线贴图，增加水面细节
@@ -33,17 +34,17 @@
 
             struct a2v
             {
-                fixed4 vertex : POSITION;
-                fixed3 normal : NORMAL;
-                fixed4 texcoord : TEXCOORD;
-                fixed4 tangent : TANGENT;
+                half4 vertex : POSITION;
+                half3 normal : NORMAL;
+                half4 texcoord : TEXCOORD;
+                half4 tangent : TANGENT;
             };
             struct v2f
             {
-                fixed4 pos : POSITION;
-                fixed2 uv : TEXCOORD0;
-                fixed3 worldNormal : TEXCOORD1;
-                fixed3 worldPos : TEXCOORD2;
+                half4 pos : POSITION;
+                half2 uv : TEXCOORD0;
+                half3 worldNormal : TEXCOORD1;
+                half3 worldPos : TEXCOORD2;
                 fixed3x3 mat : TEXCOORD3; //模型空间到切线空间的过渡矩阵
             };
 
@@ -57,8 +58,8 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
 
-                fixed3 t = normalize(v.tangent.xyz);
-                fixed3 bt = cross(v.normal, t) * v.tangent.w;
+                half3 t = normalize(v.tangent.xyz);
+                half3 bt = cross(v.normal, t) * v.tangent.w;
                 o.mat = fixed3x3(t, bt, v.normal);
 
                 return o;
@@ -66,19 +67,19 @@
             samplerCUBE _SkyBox; //天空盒。当时码代码时忘了加它，运行的时候模型变紫，写在这里了
 
             //判断是否碰撞，反射点，反射方向，第几步，当前点所对应的屏幕uv 
-            bool IsInsec(fixed3 pos, fixed3 dir, float factor, out fixed2 screenUV)
+            bool IsInsec(half3 pos, half3 dir, float factor, out half2 screenUV)
             {
-                fixed3 p = pos + dir * factor; //当前反射到的点的世界空间的坐标
+                half3 p = pos + dir * factor; //当前反射到的点的世界空间的坐标
                 float pD = length(p - _WorldSpaceCameraPos.xyz); //当前点离摄像机的距离
 
                 //当前点在屏幕上的投影坐标
-                fixed4 scrnCoord = ComputeScreenPos(UnityWorldToClipPos(fixed4(p, 1)));
+                half4 scrnCoord = ComputeScreenPos(UnityWorldToClipPos(half4(p, 1)));
                 //除以w转化为uv坐标
                 screenUV = scrnCoord.xy / scrnCoord.w;
                 if (screenUV.x < 0 || screenUV.y < 0 || screenUV.x>1 || screenUV.y>1)
                 {
                     //如果在画面外，返回否
-                    screenUV = fixed2(-1, -1);
+                    screenUV = half2(-1, -1);
                     return false;
                 }
                 //当前点所对应的屏幕空间点的深度值
@@ -88,15 +89,15 @@
             }
 
             //返回反射的颜色
-            fixed3 Ref(fixed3 pos, fixed3 dir)
+            half3 Ref(half3 pos, half3 dir)
             {
-                fixed3 reflection = texCUBE(_SkyBox, dir).rgb;    //天空盒颜色
+                half3 reflection = texCUBE(_SkyBox, dir).rgb;    //天空盒颜色
 
                 //二分法端点的初始值
                 float x1 = 1;
                 float x2 = -1;
                 float x3 = 0;
-                fixed2 uv;
+                half2 uv;
 
                 if (!IsInsec(pos, dir, 64, uv)) //在64步时没有碰撞时，返回天空盒颜色
                 {
@@ -137,26 +138,26 @@
                 return reflection;
             }
 
-            fixed4 frag(v2f i) :SV_Target
+            half4 frag(v2f i) :SV_Target
             {
                 float noise = tex2D(_Noise, i.uv).r;
-                fixed3 rgb = tex2D(_BumpMap, i.uv + fixed2(noise,0) * _Time.x * 0.4).rgb;
-                fixed3 normal = rgb * 2 - 1;
+                half3 rgb = tex2D(_BumpMap, i.uv + half2(noise,0) * _Time.x * 0.4).rgb;
+                half3 normal = rgb * 2 - 1;
                 normal.xy *= 0.1;
                 normal.z = sqrt(1 - dot(normal.xy,normal.xy));
                 normal = UnityObjectToWorldNormal(normal);
 
 
-                fixed3 v = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
-                fixed3 l = normalize(_WorldSpaceLightPos0.xyz);
+                half3 v = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+                half3 l = normalize(_WorldSpaceLightPos0.xyz);
                 float NdotV = max(0, dot(v, normal));
 
-                fixed3 r = reflect(-v, normal);  //反射光线
+                half3 r = reflect(-v, normal);  //反射光线
 
-                fixed3 diffuse = _Color.rgb * max(0, dot(l, normal));
+                half3 diffuse = _Color.rgb * max(0, dot(l, normal));
 
-                fixed3 color = lerp(Ref(i.worldPos, r) * 0.5, diffuse, NdotV);
-                return fixed4(color, 1);
+                half3 color = lerp(Ref(i.worldPos, r) * 0.5, diffuse, NdotV);
+                return half4(color, 1);
             }
             ENDCG
         }

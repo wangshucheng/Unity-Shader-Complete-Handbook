@@ -46,7 +46,8 @@
 
 			Pass { // 0
 				CGPROGRAM
-					#pragma vertex VertexProgram
+					#pragma target 3.0
+#pragma vertex VertexProgram
 					#pragma fragment FragmentProgram
 
 					half4 FragmentProgram(Interpolators i) : SV_Target {

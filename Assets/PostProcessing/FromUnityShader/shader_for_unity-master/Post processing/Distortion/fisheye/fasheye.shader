@@ -29,10 +29,10 @@ Shader "Custom/fasheye" {
 		float _P_y;
 		float _scale;
 		sampler2D _MainTex;
-		fixed4 _MainTex_ST;
+		half4 _MainTex_ST;
 		struct v2f {
-			fixed4 pos : SV_POSITION;
-			fixed2 uv_MainTex : TEXCOORD0;
+			half4 pos : SV_POSITION;
+			half2 uv_MainTex : TEXCOORD0;
 
 		};
 
@@ -52,7 +52,7 @@ float2	n_uv = (uv - 0.5) * 2.0;
 	r_uv.y = (1 - n_uv.x * n_uv.x) * _Intensity_x * (n_uv.y);
 	return(uv* _scale - r_uv);
 }
-		fixed4 frag(v2f i) :COLOR
+		half4 frag(v2f i) :COLOR
 		{
 
 			return tex2D(_MainTex, fisheye(i.uv_MainTex));

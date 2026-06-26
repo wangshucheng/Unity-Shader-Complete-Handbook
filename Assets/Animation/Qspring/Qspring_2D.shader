@@ -17,7 +17,8 @@
             Pass
             {
                 CGPROGRAM
-                #pragma vertex vert
+                #pragma target 3.0
+#pragma vertex vert
                 #pragma fragment frag
                 #include "UnityCG.cginc"
 
@@ -61,9 +62,9 @@
                     return o;
                 }
 
-                fixed4 frag(v2f i) : SV_Target
+                half4 frag(v2f i) : SV_Target
                 {
-                    fixed4 col = tex2D(_MainTex, i.uv);
+                    half4 col = tex2D(_MainTex, i.uv);
                     return col;
                 }
 

@@ -26,19 +26,19 @@ Shader "Custom/DOF_P_P" {
 #include "UnityCG.cginc"
 
 			sampler2D _CameraDepthTexture;
-		fixed4 _CameraDepthTexture_ST;
+		half4 _CameraDepthTexture_ST;
 
 		int _Foward_back;
-		fixed _Depth;
-		fixed _DepthClip;
+		half _Depth;
+		half _DepthClip;
 		int _Radius;
 		float _Pixel;
 		sampler2D _MainTex;
-		fixed4 _MainTex_ST;
+		half4 _MainTex_ST;
 #define PI 3.1415926535
 		struct v2f {
-			fixed4 pos : SV_POSITION;
-			fixed2 uv_MainTex : TEXCOORD0;
+			half4 pos : SV_POSITION;
+			half2 uv_MainTex : TEXCOORD0;
 
 		};
 
@@ -48,25 +48,25 @@ Shader "Custom/DOF_P_P" {
 			o.uv_MainTex = TRANSFORM_TEX(v.texcoord, _MainTex);
 			return o;
 		}
-		inline fixed  GetDepth(fixed2 depth_uv)
+		inline half  GetDepth(half2 depth_uv)
 		{
-			fixed d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, depth_uv)*0.8;
+			half d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, depth_uv)*0.8;
 			return d;
 
 		}
-		fixed4 frag(v2f i) :COLOR
+		half4 frag(v2f i) :COLOR
 		{
 
 
-			fixed2 uv = i.uv_MainTex;
-			fixed depth = GetDepth(uv);
-			fixed sigma = _Radius / 3.0;
-			fixed sigma2 = 2.0 * sigma * sigma;
-			fixed sigmap = sigma2 * PI;
+			half2 uv = i.uv_MainTex;
+			half depth = GetDepth(uv);
+			half sigma = _Radius / 3.0;
+			half sigma2 = 2.0 * sigma * sigma;
+			half sigmap = sigma2 * PI;
 
-			fixed4 cc = tex2D(_MainTex, i.uv_MainTex);
+			half4 cc = tex2D(_MainTex, i.uv_MainTex);
 
-	//		fixed weight = 0;
+	//		half weight = 0;
 
 			int times = 6;
 			for (int n = 0, i = -times; i <= times; ++i)
@@ -75,7 +75,7 @@ Shader "Custom/DOF_P_P" {
 				for (int j = -times; j <= times; ++j, ++n)
 				{
 		//			weight = exp(-(i2 + j * j) / sigma2) / sigmap;
-					cc += (tex2D(_MainTex, uv + fixed2(i*0.5, j)*_Pixel));//* weight);
+					cc += (tex2D(_MainTex, uv + half2(i*0.5, j)*_Pixel));//* weight);
 				}
 
 			}
@@ -83,7 +83,7 @@ Shader "Custom/DOF_P_P" {
 
 			
 			depth *=(saturate( ((depth-0.2)*2))+0.01);
-				fixed4 c = tex2D(_MainTex,uv);
+				half4 c = tex2D(_MainTex,uv);
 
 					if (_Foward_back == 0)
 			{

@@ -31,13 +31,13 @@
 			return o;
 		}
 		
-		fixed luminance(fixed4 color) {
+		half luminance(half4 color) {
 			return  0.2125 * color.r + 0.7154 * color.g + 0.0721 * color.b; 
 		}
 		
-		fixed4 fragExtractBright(v2f i) : SV_Target {
-			fixed4 c = tex2D(_MainTex, i.uv);
-			fixed val = clamp(luminance(c) - _LuminanceThreshold, 0.0, 1.0);
+		half4 fragExtractBright(v2f i) : SV_Target {
+			half4 c = tex2D(_MainTex, i.uv);
+			half val = clamp(luminance(c) - _LuminanceThreshold, 0.0, 1.0);
 			
 			return c * val;
 		}
@@ -62,7 +62,7 @@
 			return o; 
 		}
 		
-		fixed4 fragBloom(v2fBloom i) : SV_Target {
+		half4 fragBloom(v2fBloom i) : SV_Target {
 			return tex2D(_MainTex, i.uv.xy) + tex2D(_Bloom, i.uv.zw);
 		} 
 		
@@ -72,7 +72,8 @@
 		
 		Pass {  
 			CGPROGRAM  
-			#pragma vertex vertExtractBright  
+			#pragma target 3.0
+#pragma vertex vertExtractBright  
 			#pragma fragment fragExtractBright  
 			
 			ENDCG  

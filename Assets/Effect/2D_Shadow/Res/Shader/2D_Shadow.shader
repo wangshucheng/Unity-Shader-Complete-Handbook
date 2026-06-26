@@ -22,7 +22,8 @@ Shader "MyShader/Effect/2D_Shadow"
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
+            #pragma target 3.0
+#pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
@@ -52,10 +53,10 @@ Shader "MyShader/Effect/2D_Shadow"
             sampler2D _MainTex;
 
             // 片元着色获取
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 // 采样传过来的纹理
-                fixed4 col = tex2D(_MainTex, i.uv);
+                half4 col = tex2D(_MainTex, i.uv);
                 // 这里用step代替if
                 // 当 透明度值大于1时, 就呈现黑色(即影子)
                 col.rgb = 1 - step(0,col.a);

@@ -16,7 +16,7 @@
 		LOD 200
 
 		CGPROGRAM
-#pragma surface surf Lambert
+#pragma surface surf Standard fullforwardshadows
 #pragma target 4.0
 
 		float4 _MainTint;

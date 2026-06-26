@@ -57,16 +57,12 @@ Subshader {
  Pass {
 	  ZWrite Off
 	  
-	  			BindChannels 
-			{
-				Bind "Vertex", vertex
-				Bind "texcoord", texcoord0
-				Bind "texcoord1", texcoord1
-			}
+	  			// BindChannels removed (deprecated in Unity 5+)
 	  
 	  Fog { Mode off }      
       CGPROGRAM
-      #pragma fragmentoption ARB_precision_hint_fastest 
+      #pragma target 3.0
+#pragma fragmentoption ARB_precision_hint_fastest 
       #pragma vertex vert
       #pragma fragment frag
       ENDCG

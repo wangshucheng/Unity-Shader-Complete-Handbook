@@ -18,7 +18,8 @@
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
+            #pragma target 3.0
+#pragma vertex vert
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
@@ -53,9 +54,9 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                half4 col = tex2D(_MainTex, i.uv);
                 // 采样周围4个点
                 float2 up_uv = i.uv + float2(0,1) * _lineWidth * _MainTex_TexelSize.xy;
                 float2 down_uv = i.uv + float2(0,-1) * _lineWidth * _MainTex_TexelSize.xy;

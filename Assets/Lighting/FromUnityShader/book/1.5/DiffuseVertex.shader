@@ -1,7 +1,6 @@
 ﻿Shader "Custom/DiffuseVertex" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_RampTex("Ramp Texture (RGB)", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
@@ -11,7 +10,7 @@
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		//#pragma surface surf Lambert
+		//#pragma surface surf Standard fullforwardshadows
 		#pragma surface surf BasicDiffuse
 
 		// Use shader model 3.0 target, to get nicer looking lighting
@@ -26,11 +25,11 @@
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
+		half4 _Color;
 
 		void surf (Input IN, inout SurfaceOutput o) {
 			// Albedo comes from a texture tinted by color
-			fixed4 c = _Color;
+			half4 c = _Color;
 			o.Albedo = c.rgb;
 			// Metallic and smoothness come from slider variables
 			//o.Metallic = _Metallic;
@@ -38,7 +37,7 @@
 			o.Alpha = c.a;
 		}
 
-		inline float4 LightingBasicDiffuse(SurfaceOutput s, fixed3 lightDir, fixed atten)
+		inline float4 LightingBasicDiffuse(SurfaceOutput s, half3 lightDir, half atten)
 		{
 			float difLight = max(0, dot(s.Normal, lightDir));
 			float hLambert = difLight * 0.5 + 0.5;

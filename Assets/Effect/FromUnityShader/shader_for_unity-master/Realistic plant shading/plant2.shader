@@ -30,6 +30,7 @@ Shader "Custom/plant2" {
 			ZWrite on
 			Blend SrcAlpha OneMinusSrcAlpha
 			CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"

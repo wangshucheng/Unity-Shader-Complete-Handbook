@@ -8,7 +8,6 @@
 */
 Shader "Custom/snow" {
 		Properties{
-		_MainTex("Base (RGB)", 2D) = "white" {}
 		_NormalTex("Normal (RGB)", 2D) = "white" {}
 
 

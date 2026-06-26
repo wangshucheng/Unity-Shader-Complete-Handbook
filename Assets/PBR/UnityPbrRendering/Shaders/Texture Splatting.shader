@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'UnityObjectToClipPos(*)' with 'UnityObjectToClipPos(*)'
 
 Shader "Custom/Texture Splatting" {
 
@@ -15,7 +15,8 @@ Shader "Custom/Texture Splatting" {
 		Pass {
 			CGPROGRAM
 
-			#pragma vertex MyVertexProgram
+			#pragma target 3.0
+#pragma vertex MyVertexProgram
 			#pragma fragment MyFragmentProgram
 
 			#include "UnityCG.cginc"

@@ -46,7 +46,7 @@ Shader "Lapu/Scan"
 			CGPROGRAM
 
 			#pragma target 4.6
-			#pragma surface surf Lambert alpha 
+			#pragma surface surf Standard fullforwardshadows alpha 
 
 			#pragma shader_feature ScanMode
 
@@ -85,7 +85,7 @@ Shader "Lapu/Scan"
 
 				//texture 
 				float2 uv_Diffuse = i.uv_texcoord * _Diffuse_ST.xy + _Diffuse_ST.zw;
-				float2 uv_HighLitTexture = i.uv2_texcoord2 * _HighLitTexture_ST.xy + _HighLitTexture_ST.zw + fixed2(s,c);
+				float2 uv_HighLitTexture = i.uv2_texcoord2 * _HighLitTexture_ST.xy + _HighLitTexture_ST.zw + half2(s,c);
 
 				float4 maincolor = tex2D(_Diffuse, uv_Diffuse);
 				float4 highlitcolor = tex2D(_HighLitTexture, uv_HighLitTexture);

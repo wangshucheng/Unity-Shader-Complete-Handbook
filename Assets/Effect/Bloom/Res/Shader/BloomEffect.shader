@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'UnityObjectToClipPos(*)' with 'UnityObjectToClipPos(*)'
 
 Shader "Custom/BloomEffect" {
 
@@ -58,9 +58,9 @@ Shader "Custom/BloomEffect" {
 		return o;
 	}
 
-	fixed4 frag_threshold(v2f_threshold i) : SV_Target
+	half4 frag_threshold(v2f_threshold i) : SV_Target
 	{
-		fixed4 color = tex2D(_MainTex, i.uv);
+		half4 color = tex2D(_MainTex, i.uv);
 	//仅当color大于设置的阈值的时候才输出
 	return saturate(color - _colorThreshold);
 	}
@@ -81,9 +81,9 @@ Shader "Custom/BloomEffect" {
 	}
 
 	//高斯模糊 pixel shader（上一篇文章有详细注释）
-	fixed4 frag_blur(v2f_blur i) : SV_Target
+	half4 frag_blur(v2f_blur i) : SV_Target
 	{
-		fixed4 color = fixed4(0,0,0,0);
+		half4 color = half4(0,0,0,0);
 		color += 0.40 * tex2D(_MainTex, i.uv);
 		color += 0.15 * tex2D(_MainTex, i.uv01.xy);
 		color += 0.15 * tex2D(_MainTex, i.uv01.zw);
@@ -110,14 +110,14 @@ Shader "Custom/BloomEffect" {
 		return o;
 	}
 
-	fixed4 frag_bloom(v2f_bloom i) : SV_Target
+	half4 frag_bloom(v2f_bloom i) : SV_Target
 	{
 		//取原始清晰图片进行uv采样
-		fixed4 ori = tex2D(_MainTex, i.uv1);
+		half4 ori = tex2D(_MainTex, i.uv1);
 	//取模糊普片进行uv采样
-	fixed4 blur = tex2D(_BlurTex, i.uv);
+	half4 blur = tex2D(_BlurTex, i.uv);
 	//输出= 原始图像，叠加bloom权值*bloom颜色*泛光颜色
-	fixed4 final = ori + _bloomFactor * blur * _bloomColor;
+	half4 final = ori + _bloomFactor * blur * _bloomColor;
 	return final;
 	}
 
@@ -134,7 +134,8 @@ Shader "Custom/BloomEffect" {
 			Fog{ Mode Off }
 
 			CGPROGRAM
-			#pragma vertex vert_threshold
+			#pragma target 3.0
+#pragma vertex vert_threshold
 			#pragma fragment frag_threshold
 			ENDCG
 		}

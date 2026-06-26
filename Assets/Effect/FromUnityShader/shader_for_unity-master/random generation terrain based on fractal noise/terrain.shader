@@ -8,7 +8,6 @@
 */
 Shader "Custom/terrain" {
 	Properties{
-	_MainTex("Base (RGB)", 2D) = "white" {}
 	_NormalTex("Normal (RGB)", 2D) = "white" {}
 	_LowTex("Low Tex", 2D) = "white" {}
 	_LowNormalTex("Low Normal Tex", 2D) = "white" {}

@@ -10,10 +10,11 @@
 		LOD 200
 
 	CGPROGRAM
-	#pragma surface surf Lambert
-	fixed4 _MainTint;
-	fixed _ScrollXSpeed;
-	fixed _ScrollYSpeed;
+	#pragma target 3.0
+#pragma surface surf Standard fullforwardshadows
+	half4 _MainTint;
+	half _ScrollXSpeed;
+	half _ScrollYSpeed;
 	sampler2D _MainTex;
 
 	struct Input {
@@ -21,10 +22,10 @@
 	};
 
 	void surf(Input IN, inout SurfaceOutput o) {
-		fixed2 scrolledUV = IN.uv_MainTex;
-		fixed xScrollValue = _ScrollXSpeed * _Time;
-		fixed yScrollValue = _ScrollYSpeed * _Time;
-		scrolledUV += fixed2(xScrollValue, yScrollValue);
+		half2 scrolledUV = IN.uv_MainTex;
+		half xScrollValue = _ScrollXSpeed * _Time;
+		half yScrollValue = _ScrollYSpeed * _Time;
+		scrolledUV += half2(xScrollValue, yScrollValue);
 		half4 c = tex2D(_MainTex, scrolledUV);
 		o.Albedo = c.rgb * _MainTint;
 		o.Alpha = c.a;

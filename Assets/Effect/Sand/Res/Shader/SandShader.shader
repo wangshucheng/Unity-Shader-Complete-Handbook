@@ -15,14 +15,15 @@
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
+            #pragma target 4.0
+#pragma vertex vert
 			#pragma geometry geom
             #pragma fragment frag
             #include "UnityCG.cginc"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
-			fixed4 _CustomColor;
+			half4 _CustomColor;
 			float _InitialSpeed;  
 			float _GravityAcceValue;
 			float _StartTime;   
@@ -87,9 +88,9 @@
 			}
 
 			//片元着色器
-            fixed4 frag (g2f i) : SV_Target
+            half4 frag (g2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                half4 col = tex2D(_MainTex, i.uv);
                 return col * _CustomColor;
             }
 

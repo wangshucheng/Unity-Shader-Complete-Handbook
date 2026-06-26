@@ -18,6 +18,7 @@ Shader "Custom/Retroc_CRT" {
 			Tags{ "LightMode" = "ForwardBase" }
 			Cull off
 				CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"

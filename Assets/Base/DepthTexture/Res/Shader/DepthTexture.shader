@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'UnityObjectToClipPos(*)' with 'UnityObjectToClipPos(*)'
 
 Shader "MyShader/Base/DepthTexture"
 {
@@ -8,7 +8,8 @@ Shader "MyShader/Base/DepthTexture"
 		Pass{
 
 				CGPROGRAM
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"

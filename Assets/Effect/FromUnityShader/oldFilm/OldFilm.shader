@@ -25,6 +25,7 @@
 		Pass
 	{
 		CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert_img
 #pragma fragment frag
 #pragma fragmentoption ARB_precision_hint_fastest
@@ -33,15 +34,15 @@
 	uniform sampler2D _VignetteTex;
 	uniform sampler2D _ScratchesTex;
 	uniform sampler2D _DustTex;
-	fixed4 _SepiaColor;
-	fixed _VignetteAmount;
-	fixed _ScratchesYSpeed;
-	fixed _ScratchesXSpeed;
-	fixed _dustXSpeed;
-	fixed _dustYSpeed;
-	fixed _EffectAmount;
-	fixed _RandomValue;
-	fixed _Contrast;
+	half4 _SepiaColor;
+	half _VignetteAmount;
+	half _ScratchesYSpeed;
+	half _ScratchesXSpeed;
+	half _dustXSpeed;
+	half _dustYSpeed;
+	half _EffectAmount;
+	half _RandomValue;
+	half _Contrast;
 
 	float _distortion;
 	float _cubicDistortion;
@@ -59,38 +60,38 @@
 
 		return f * _scale * h + 0.5;
 	}
-	fixed4 frag(v2f_img i) : COLOR
+	half4 frag(v2f_img i) : COLOR
 	{
 		//Get the colors from the RenderTexture and the uv's
 		//from the v2f_img struct
 		half2 distortedUV = barrelDistortion(i.uv);
 		distortedUV = half2(i.uv.x, i.uv.y + (_RandomValue * _SinTime.z * 0.005));
-		fixed4 renderTex = tex2D(_MainTex, i.uv);
+		half4 renderTex = tex2D(_MainTex, i.uv);
 
 		//Get the pixels from the Vignette Texture
-		fixed4 vignetteTex = tex2D(_VignetteTex, i.uv);
+		half4 vignetteTex = tex2D(_VignetteTex, i.uv);
 
 		//Process the Scratches UV and pixels
 		half2 scratchesUV = half2(i.uv.x + (_RandomValue * _SinTime.z * _ScratchesXSpeed),
 			i.uv.y + (_Time.x * _ScratchesYSpeed));
-		fixed4 scratchesTex = tex2D(_ScratchesTex, scratchesUV);
+		half4 scratchesTex = tex2D(_ScratchesTex, scratchesUV);
 
 		//Process the Dust UV and pixels
 		half2 dustUV = half2(i.uv.x + (_RandomValue * (_SinTime.z * _dustXSpeed)),
 			i.uv.y + (_RandomValue * (_SinTime.z * _dustYSpeed)));
-		fixed4 dustTex = tex2D(_DustTex, dustUV);
+		half4 dustTex = tex2D(_DustTex, dustUV);
 
 		// get the luminosity values from the render texture using the YIQ values.
-		fixed lum = dot(fixed3(0.299, 0.587, 0.114), renderTex.rgb);
+		half lum = dot(half3(0.299, 0.587, 0.114), renderTex.rgb);
 
 
 		//Add the constant color to the lum values
-		fixed4 finalColor = lum + lerp(_SepiaColor, _SepiaColor +
-			fixed4(0.1f,0.1f,0.1f,1.0f), _RandomValue);
+		half4 finalColor = lum + lerp(_SepiaColor, _SepiaColor +
+			half4(0.1f,0.1f,0.1f,1.0f), _RandomValue);
 		finalColor = pow(finalColor, _Contrast);
 
 		//Create a constant white color we can use to adjust opacity of effects
-		fixed3 constantWhite = fixed3(1,1,1);
+		half3 constantWhite = half3(1,1,1);
 
 		//Composite together the different layers to create finsl Screen Effect
 		finalColor = lerp(finalColor, finalColor * vignetteTex, _VignetteAmount);

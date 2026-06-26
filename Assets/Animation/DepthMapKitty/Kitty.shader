@@ -33,18 +33,19 @@ Shader "awsl/Kitty"
             Blend One OneMinusSrcAlpha
 
             CGPROGRAM
-            #pragma surface surf Lambert vertex:vert nofog nolightmap nodynlightmap keepalpha noinstancing
+            #pragma target 3.0
+#pragma surface surf Standard fullforwardshadows vertex:vert nofog nolightmap nodynlightmap keepalpha noinstancing
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
             #include "UnitySprites.cginc"
 
             sampler2D _HeightTex;
-            fixed2 _Scale;
+            half2 _Scale;
 
             struct Input
             {
                 float2 uv_MainTex;
-                fixed4 color;
+                half4 color;
             };
 
             void vert(inout appdata_full v, out Input o)
@@ -61,10 +62,10 @@ Shader "awsl/Kitty"
 
             void surf(Input IN, inout SurfaceOutput o)
             {
-                fixed height = tex2D(_HeightTex, IN.uv_MainTex).r;
-                fixed2 displacement = _Scale * ((height - 0.5) * 2);
+                half height = tex2D(_HeightTex, IN.uv_MainTex).r;
+                half2 displacement = _Scale * ((height - 0.5) * 2);
 
-                fixed4 c = SampleSpriteTexture(IN.uv_MainTex - displacement) * IN.color;
+                half4 c = SampleSpriteTexture(IN.uv_MainTex - displacement) * IN.color;
            
                 o.Albedo = c.rgb * c.a;
                 o.Alpha = c.a;

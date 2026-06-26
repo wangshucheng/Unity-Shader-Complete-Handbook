@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'UnityObjectToClipPos(*)' with 'UnityObjectToClipPos(*)'
 
 Shader "Custom/My First Shader" {
 
@@ -12,7 +12,8 @@ Shader "Custom/My First Shader" {
 		Pass {
 			CGPROGRAM
 
-			#pragma vertex MyVertexProgram
+			#pragma target 3.0
+#pragma vertex MyVertexProgram
 			#pragma fragment MyFragmentProgram
 
 			#include "UnityCG.cginc"

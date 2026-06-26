@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'unity_ObjectToWorld' with 'unity_ObjectToWorld'
 
 /*
 *Hi, I'm Lin Dong,
@@ -65,6 +65,7 @@ Shader "Custom/blood" {
 			Cull Back
 
 			CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
@@ -130,7 +131,7 @@ Shader "Custom/blood" {
 			float4 tangent : TANGENT;
 			float3 normal : NORMAL;
 			float2 texcoord : TEXCOORD0;
-			fixed4 color : COLOR;
+			half4 color : COLOR;
 		};
 		v2f vert(appdata_full v) {
 			v2f o;
@@ -233,7 +234,7 @@ Shader "Custom/blood" {
 			float3 rim = (1 - dot(viewDir, n2))*_RimPower * _RimColor;
 			float3 frontrim = (dot(viewDir, n2))*_FrontRimPower * _FrontRimColor *tex2D(_FrontRimTex, i.uv_MainTex);
 
-			fixed atten = LIGHT_ATTENUATION(i);
+			half atten = LIGHT_ATTENUATION(i);
 			float curvature = length(fwidth(mul(unity_ObjectToWorld, float4(normalize(i.normal), 0)))) /
 				length(fwidth(i.worldpos)) * _CurveScale;
 

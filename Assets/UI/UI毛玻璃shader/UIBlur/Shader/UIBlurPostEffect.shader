@@ -60,10 +60,10 @@
 		return OUT;
 	}
 
-	fixed4 frag (vertexOutput IN) : SV_Target
+	half4 frag (vertexOutput IN) : SV_Target
 	{
-		fixed3 color = tex2D(_MainTex, IN.texcoord);
-		return fixed4(color, 1.0);
+		half3 color = tex2D(_MainTex, IN.texcoord);
+		return half4(color, 1.0);
 	}
 
 	//
@@ -111,18 +111,18 @@
 		return OUT;
 	}
 
-	fixed4 frag5Blur (output_5tap IN) : SV_Target
+	half4 frag5Blur (output_5tap IN) : SV_Target
 	{
 	#if GAMMA_CORRECTION
-		fixed3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.29411764;
+		half3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.29411764;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord.xy).xyz) * 0.35294117;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord.zw).xyz) * 0.35294117;
-		return fixed4(LinearToGammaSpace(sum), 1.0);
+		return half4(LinearToGammaSpace(sum), 1.0);
 	#else
-		fixed3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.29411764;
+		half3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.29411764;
 		sum += tex2D(_MainTex, IN.blurTexcoord.xy).xyz * 0.35294117;
 		sum += tex2D(_MainTex, IN.blurTexcoord.zw).xyz * 0.35294117;
-		return fixed4(sum, 1.0);
+		return half4(sum, 1.0);
 	#endif
 	}
 
@@ -177,22 +177,22 @@
 		return OUT;
 	}
 
-	fixed4 frag9Blur (output_9tap IN) : SV_Target
+	half4 frag9Blur (output_9tap IN) : SV_Target
 	{
 	#if GAMMA_CORRECTION
-		fixed3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.22702702;
+		half3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.22702702;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz) * 0.31621621;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz) * 0.31621621;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz) * 0.07027027;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz) * 0.07027027;
-		return fixed4(LinearToGammaSpace(sum), 1.0);
+		return half4(LinearToGammaSpace(sum), 1.0);
 	#else
-		fixed3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.22702702;
+		half3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.22702702;
 		sum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * 0.31621621;
 		sum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * 0.31621621;
 		sum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * 0.07027027;
 		sum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * 0.07027027;
-		return fixed4(sum, 1.0);
+		return half4(sum, 1.0);
 	#endif
 	}
 
@@ -253,26 +253,26 @@
 		return OUT;
 	}
 
-	fixed4 frag13Blur (output_13tap IN) : SV_Target
+	half4 frag13Blur (output_13tap IN) : SV_Target
 	{
 	#if GAMMA_CORRECTION
-		fixed3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.19648255;
+		half3 sum = GammaToLinearSpace(tex2D(_MainTex, IN.texcoord).xyz) * 0.19648255;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz) * 0.29690696;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz) * 0.29690696;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz) * 0.09447039;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz) * 0.09447039;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[2].xy).xyz) * 0.01038136;
 		sum += GammaToLinearSpace(tex2D(_MainTex, IN.blurTexcoord[2].zw).xyz) * 0.01038136;
-		return fixed4(LinearToGammaSpace(sum), 1.0);
+		return half4(LinearToGammaSpace(sum), 1.0);
 	#else
-		fixed3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.19648255;
+		half3 sum = tex2D(_MainTex, IN.texcoord).xyz * 0.19648255;
 		sum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * 0.29690696;
 		sum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * 0.29690696;
 		sum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * 0.09447039;
 		sum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * 0.09447039;
 		sum += tex2D(_MainTex, IN.blurTexcoord[2].xy).xyz * 0.01038136;
 		sum += tex2D(_MainTex, IN.blurTexcoord[2].zw).xyz * 0.01038136;
-		return fixed4(sum, 1.0);
+		return half4(sum, 1.0);
 	#endif
 	}
 
@@ -288,7 +288,8 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			ENDCG
 		}

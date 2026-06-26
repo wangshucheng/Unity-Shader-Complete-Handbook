@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'unity_ObjectToWorld' with 'unity_ObjectToWorld'
 
 /*
 *Hi, I'm Lin Dong,
@@ -56,6 +56,7 @@ Shader "Custom/HumanSkin" {
 			Cull Back
 
 			CGPROGRAM
+#pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
@@ -117,7 +118,7 @@ Shader "Custom/HumanSkin" {
 			float4 tangent : TANGENT;
 			float3 normal : NORMAL;
 			float2 texcoord : TEXCOORD0;
-			fixed4 color : COLOR;
+			half4 color : COLOR;
 		};
 		v2f vert(appdata_full v) {
 			v2f o;
@@ -223,7 +224,7 @@ Shader "Custom/HumanSkin" {
 			float3 sss = (1 - dot(viewDir, n2)) / 50 * _SSSPower;
 			sss = lerp(tex2D(_SSSFrontTex, i.uv_MainTex), tex2D(_SSSBackTex, i.uv_MainTex), sss * 20)*sss;
 
-			fixed atten = LIGHT_ATTENUATION(i);
+			half atten = LIGHT_ATTENUATION(i);
 			float curvature = length(fwidth(mul(unity_ObjectToWorld, float4(normalize(i.normal), 0)))) /
 				length(fwidth(i.worldpos)) * _CurveScale;  
 

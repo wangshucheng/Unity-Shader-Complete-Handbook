@@ -15,7 +15,8 @@
 		{
 			CGPROGRAM
 
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			#include "UnityCG.cginc"
 
@@ -46,7 +47,7 @@
 				return o;
 			}
 
-			fixed4 frag(v2f i) : SV_Target
+			half4 frag(v2f i) : SV_Target
 			{
 				//以高度为基准，获取屏幕宽高的缩放比值
 				float2 widthHightScale = float2(_ScreenParams.x / _ScreenParams.y,1);
@@ -61,11 +62,11 @@
 				float distance = length(dir * widthHightScale);
 
 				//4.判断是否在圆上
-				//fixed isZoomArea = 1 - step(_CircleRadius,distance);
+				//half isZoomArea = 1 - step(_CircleRadius,distance);
 				float isZoomArea = smoothstep(_CircleRadius + _CircleEdgeStrength,_CircleRadius,distance);
 
 				//5.原始uv上整体叠加缩放值（_ZoomFactor是c#传入的缩放因子）                         
-				fixed4 col = tex2D(_MainTex, i.uv + dir * _ZoomFactor * isZoomArea);
+				half4 col = tex2D(_MainTex, i.uv + dir * _ZoomFactor * isZoomArea);
 				return col;
 			}
 

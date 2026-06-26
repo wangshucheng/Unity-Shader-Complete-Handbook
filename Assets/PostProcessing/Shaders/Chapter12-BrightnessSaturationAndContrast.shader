@@ -10,7 +10,8 @@
 			ZTest Always Cull Off ZWrite Off
 			
 			CGPROGRAM  
-			#pragma vertex vert  
+			#pragma target 3.0
+#pragma vertex vert  
 			#pragma fragment frag  
 			  
 			#include "UnityCG.cginc"  
@@ -35,22 +36,22 @@
 				return o;
 			}
 		
-			fixed4 frag(v2f i) : SV_Target {
-				fixed4 renderTex = tex2D(_MainTex, i.uv);  
+			half4 frag(v2f i) : SV_Target {
+				half4 renderTex = tex2D(_MainTex, i.uv);  
 				  
 				// Apply brightness
-				fixed3 finalColor = renderTex.rgb * _Brightness;
+				half3 finalColor = renderTex.rgb * _Brightness;
 				
 				// Apply saturation
-				fixed luminance = 0.2125 * renderTex.r + 0.7154 * renderTex.g + 0.0721 * renderTex.b;
-				fixed3 luminanceColor = fixed3(luminance, luminance, luminance);
+				half luminance = 0.2125 * renderTex.r + 0.7154 * renderTex.g + 0.0721 * renderTex.b;
+				half3 luminanceColor = half3(luminance, luminance, luminance);
 				finalColor = lerp(luminanceColor, finalColor, _Saturation);
 				
 				// Apply contrast
-				fixed3 avgColor = fixed3(0.5, 0.5, 0.5);
+				half3 avgColor = half3(0.5, 0.5, 0.5);
 				finalColor = lerp(avgColor, finalColor, _Contrast);
 				
-				return fixed4(finalColor, renderTex.a);  
+				return half4(finalColor, renderTex.a);  
 			}  
 			  
 			ENDCG

@@ -47,7 +47,7 @@
 			float4 _MainTex_ST;
 			float _Length;
 			float _AppendLength;
-			fixed4 _CustomColor;
+			half4 _CustomColor;
 
 			//添加顶点
 			void ADD_VERT(float3 v, g2f o, inout TriangleStream<g2f> tristream)
@@ -111,9 +111,9 @@
 				ADD_TRI(v5,v3,newCenterPoint, o, tristream);
 			}
  
-			fixed4 frag (g2f i) : SV_Target
+			half4 frag (g2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.uv) * _CustomColor;
+				half4 col = tex2D(_MainTex, i.uv) * _CustomColor;
 				return col;
 			}
 

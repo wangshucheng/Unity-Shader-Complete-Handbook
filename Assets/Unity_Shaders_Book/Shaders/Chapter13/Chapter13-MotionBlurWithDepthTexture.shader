@@ -36,7 +36,7 @@
 			return o;
 		}
 		
-		fixed4 frag(v2f i) : SV_Target {
+		half4 frag(v2f i) : SV_Target {
 			// Get the depth buffer value at this pixel.
 			float d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv_depth);
 			#if defined(UNITY_REVERSED_Z)
@@ -68,7 +68,7 @@
 			}
 			c /= 3;
 			
-			return fixed4(c.rgb, 1.0);
+			return half4(c.rgb, 1.0);
 		}
 		
 		ENDCG
@@ -78,7 +78,8 @@
 			    	
 			CGPROGRAM  
 			
-			#pragma vertex vert  
+			#pragma target 3.0
+#pragma vertex vert  
 			#pragma fragment frag  
 			  
 			ENDCG  

@@ -59,7 +59,8 @@
             Pass
             {
                 CGPROGRAM
-                #pragma vertex vert
+                #pragma target 3.0
+#pragma vertex vert
                 #pragma fragment frag
 
                 struct appdata
@@ -85,7 +86,7 @@
                 float _Roughness;
                 sampler2D _Metallic;
                 float _AO;
-                fixed4 _Color;
+                half4 _Color;
 
                 v2f vert(appdata v)
                 {
@@ -99,7 +100,7 @@
                     return o;
                 }
 
-                fixed4 frag(v2f i) : SV_Target
+                half4 frag(v2f i) : SV_Target
                 {
 
                     float4 packNormal = tex2D(_BumpTex,i.uv);
@@ -111,11 +112,11 @@
                     float3 halfDir = normalize(lightDir + viewDir);
 
                     //把色彩转到线性空间，我不太确定Unity的光照颜色是线性的还是Gamma的......
-                    fixed4 lightColor = pow(_LightColor0,2.2);
-                    fixed4 color = pow(_Color,2.2);
+                    half4 lightColor = pow(_LightColor0,2.2);
+                    half4 color = pow(_Color,2.2);
 
-                    //fixed4 albedo = pow(tex2D(_MainTex, i.uv),2.2)*_LightColor0*_Color;
-                    fixed4 albedo = pow(tex2D(_MainTex, i.uv),2.2) * lightColor * color;
+                    //half4 albedo = pow(tex2D(_MainTex, i.uv),2.2)*_LightColor0*_Color;
+                    half4 albedo = pow(tex2D(_MainTex, i.uv),2.2) * lightColor * color;
                     float3 F0 = float3(0.04,0.04,0.04);
 
                     float metallic = tex2D(_Metallic,i.uv).r;

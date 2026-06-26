@@ -21,7 +21,7 @@
 		half4 _MainTex_TexelSize;
 		sampler2D _CameraDepthTexture;
 		half _FogDensity;
-		fixed4 _FogColor;
+		half4 _FogColor;
 		float _FogStart;
 		float _FogEnd;
 		sampler2D _NoiseTex;
@@ -68,7 +68,7 @@
 			return o;
 		}
 		
-		fixed4 frag(v2f i) : SV_Target {
+		half4 frag(v2f i) : SV_Target {
 			float linearDepth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv_depth));
 			float3 worldPos = _WorldSpaceCameraPos + linearDepth * i.interpolatedRay.xyz;
 			
@@ -78,7 +78,7 @@
 			float fogDensity = (_FogEnd - worldPos.y) / (_FogEnd - _FogStart); 
 			fogDensity = saturate(fogDensity * _FogDensity * (1 + noise));
 			
-			fixed4 finalColor = tex2D(_MainTex, i.uv);
+			half4 finalColor = tex2D(_MainTex, i.uv);
 			finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, fogDensity);
 			
 			return finalColor;
@@ -89,7 +89,8 @@
 		Pass {          	
 			CGPROGRAM  
 			
-			#pragma vertex vert  
+			#pragma target 3.0
+#pragma vertex vert  
 			#pragma fragment frag  
 			  
 			ENDCG

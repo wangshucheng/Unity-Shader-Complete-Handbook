@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'UnityObjectToClipPos(*)' with 'UnityObjectToClipPos(*)'
 Shader "Arc/MyFirstPbr"
 {
     Properties
@@ -59,7 +59,7 @@ Shader "Arc/MyFirstPbr"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
 				i.normal = normalize(i.normal);
 				float3 lightDir = _WorldSpaceLightPos0.xyz;

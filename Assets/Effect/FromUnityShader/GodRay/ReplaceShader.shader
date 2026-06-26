@@ -2,7 +2,6 @@ Shader "ZHH/ReplaceShader"
 {
 	Properties 
 	{
-		_MainTex ("base", 2D) = "white" {}
 		_ColorBack ("Main Color", Color) = (0,1,1,1)
 		_Color ("Replace Color", Color) = (0,1,1,1)
 	}
@@ -16,12 +15,7 @@ Shader "ZHH/ReplaceShader"
 		{
 			Lighting OFF
 			
-			BindChannels 
-			{
-				Bind "Vertex", vertex
-				Bind "texcoord", texcoord0
-				Bind "texcoord1", texcoord1
-			}
+			// BindChannels removed (deprecated in Unity 5+)
 			
 			Color [_ColorBack]
 		}
@@ -38,12 +32,7 @@ Shader "ZHH/ReplaceShader"
 			
 			Lighting OFF
 			
-			BindChannels 
-			{
-				Bind "Vertex", vertex
-				Bind "texcoord", texcoord0
-				Bind "texcoord1", texcoord1
-			}
+			// BindChannels removed (deprecated in Unity 5+)
 			
 			Color [_Color]
 			//SetTexture [_MainTex] { combine texture * primary }

@@ -14,13 +14,14 @@
 			
 			#pragma multi_compile_fwdbase
 			
-			#pragma vertex vert
+			#pragma target 3.0
+#pragma vertex vert
 			#pragma fragment frag
 			
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
 			
-			fixed4 _Color;
+			half4 _Color;
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			sampler2D _BumpMap;
@@ -50,9 +51,9 @@
 				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 				
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
-				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);  
-				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
-				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
+				half3 worldNormal = UnityObjectToWorldNormal(v.normal);  
+				half3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
+				half3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
 				
 				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
 				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
@@ -63,23 +64,23 @@
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
+			half4 frag(v2f i) : SV_Target {
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
-				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
-				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+				half3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
+				half3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				
-				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				half3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
 				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 				
-				fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
+				half3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 				
-				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+				half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 			
-			 	fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
+			 	half3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
 				
 				UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 				
-				return fixed4(ambient + diffuse * atten, 1.0);
+				return half4(ambient + diffuse * atten, 1.0);
 			}
 			
 			ENDCG
@@ -102,7 +103,7 @@
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
 			
-			fixed4 _Color;
+			half4 _Color;
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			sampler2D _BumpMap;
@@ -132,9 +133,9 @@
 				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 				
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;  
-				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);  
-				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
-				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
+				half3 worldNormal = UnityObjectToWorldNormal(v.normal);  
+				half3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);  
+				half3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w; 
 				
 				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
 				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
@@ -145,21 +146,21 @@
 				return o;
 			}
 			
-			fixed4 frag(v2f i) : SV_Target {
+			half4 frag(v2f i) : SV_Target {
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
-				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
-				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+				half3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
+				half3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				
-				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				half3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
 				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 				
-				fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
+				half3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 				
-			 	fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
+			 	half3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));
 				
 				UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
 				
-				return fixed4(diffuse * atten, 1.0);
+				return half4(diffuse * atten, 1.0);
 			}
 			
 			ENDCG

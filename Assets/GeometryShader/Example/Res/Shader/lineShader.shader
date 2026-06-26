@@ -13,7 +13,8 @@
         Pass 
         { 
             CGPROGRAM 
-            #pragma vertex vert 
+            #pragma target 4.0
+#pragma vertex vert 
             //-------声明几何着色器 
             #pragma geometry geom 
             #pragma fragment frag 
@@ -41,7 +42,7 @@
  
             sampler2D _MainTex; 
             float4 _MainTex_ST; 
-			fixed4 _CustomColor;
+			half4 _CustomColor;
              
             v2g vert (appdata v) 
             { 
@@ -72,9 +73,9 @@
                 outStream.Append(o); 
             } 
              
-            fixed4 frag (g2f i) : SV_Target 
+            half4 frag (g2f i) : SV_Target 
             { 
-                fixed4 col = tex2D(_MainTex, i.uv) * _CustomColor; 
+                half4 col = tex2D(_MainTex, i.uv) * _CustomColor; 
                 return col; 
             } 
             ENDCG 

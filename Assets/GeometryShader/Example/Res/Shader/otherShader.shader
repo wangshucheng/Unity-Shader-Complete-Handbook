@@ -13,7 +13,8 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma target 4.0
+#pragma vertex vert
 			#pragma fragment frag
 			#pragma geometry geom
 			
@@ -37,7 +38,7 @@
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
-				fixed4 col : COLOR;
+				half4 col : COLOR;
 			};
 
 			sampler2D _MainTex;
@@ -71,20 +72,20 @@
 				{
 					o.vertex = UnityObjectToClipPos(IN[i].vertex);
 					o.uv = IN[i].uv;
-					o.col = fixed4(0., 0., 0., 1.);
+					o.col = half4(0., 0., 0., 1.);
 
 					tristream.Append(o);
 
 					uint index = (i + 1) % 3;
 					o.vertex = UnityObjectToClipPos(IN[index].vertex);
 					o.uv = IN[index].uv;
-					o.col = fixed4(0., 0., 0., 1.);
+					o.col = half4(0., 0., 0., 1.);
 
 					tristream.Append(o);
 
 					o.vertex = UnityObjectToClipPos(float4(centerPos, 1));
 					o.uv = centerTex;
-					o.col = fixed4(1.0, 1.0, 1.0, 1.);
+					o.col = half4(1.0, 1.0, 1.0, 1.);
 
 					tristream.Append(o);
 
@@ -93,9 +94,9 @@
 			}
 
 			
-			fixed4 frag (g2f i) : SV_Target
+			half4 frag (g2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.uv);
+				half4 col = tex2D(_MainTex, i.uv);
 				return col;
 			}
 			ENDCG

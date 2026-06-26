@@ -30,10 +30,10 @@ Shader "Custom/Barrel" {
 			float _scale;
 
 			sampler2D _MainTex;
-			fixed4 _MainTex_ST;
+			half4 _MainTex_ST;
 			struct v2f {
-				fixed4 pos : SV_POSITION;
-				fixed2 uv_MainTex : TEXCOORD0;
+				half4 pos : SV_POSITION;
+				half2 uv_MainTex : TEXCOORD0;
 
 			};
 
@@ -53,7 +53,7 @@ Shader "Custom/Barrel" {
 
 				return f * _scale * h + 0.5;
 			}
-			fixed4 frag(v2f i) :COLOR
+			half4 frag(v2f i) :COLOR
 			{
 
 				return tex2D(_MainTex, barrel(i.uv_MainTex));
