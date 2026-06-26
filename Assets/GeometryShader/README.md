@@ -1,60 +1,50 @@
-[toc]
+# GeometryShader — 几何着色器
 
-# GeometryShader
-几何着色器
+几何着色器示例和草地渲染系统。几何着色器可以在 GPU 管线中增删改图元，实现程序化几何体生成。
 
-## 特点
-- 增删改模型顶点和三角面
-- 并行调用硬件困难，并行程度低，效率和顶点着色器有很大的差距
+## Shader 清单
 
-## 代码
+### Example — 基础示例
 
-```Shaderlab
-Pass
-{
-	#pragma target 4.0
-    ...
-    #pragma geometry geom
-    ...
+| 文件路径 | Shader 名称 | 功能描述 | 技术要点 |
+|----------|-------------|----------|----------|
+| `Example/Res/Shader/jianciShader.shader` | `MyShader/jianciShader` | 锥体生成，根据三角面法线生成锥体 | Vert/Frag/Geometry, SM 4.0, TriangleStream |
+| `Example/Res/Shader/lineShader.shader` | `MyShader/lineShader` | 线段生成，将三角面转为线框 | Vert/Frag/Geometry, SM 4.0 |
+| `Example/Res/Shader/otherShader.shader` | `MyShader/otherShader` | 毛发效果，几何着色器生成毛发层 | Vert/Frag/Geometry, SM 4.0 |
+| `Example/Res/Shader/pointShader.shader` | `MyShader/pointShader` | 点生成，将顶点转为点云 | Vert/Frag/Geometry, SM 4.0 |
+| `Example/Res/Shader/testShader.shader` | `MyShader/GSTest` | 几何着色器测试，法线方向锥体 | Vert/Frag/Geometry, SM 4.0 |
+| `Example/Res/Shader/tuqiShader.shader` | `MyShader/tuqiShader` | 凸起效果，三角面沿法线凸出 | Vert/Frag/Geometry, SM 4.0 |
 
-    void ADD_VERT(float3 v,g2f o,inout TriangleStream<g2f> tristream)
-    {
-       o.vertex = UnityObjectToClipPos(v); 
-       // 添加点
-       tristream.Append(o);
-    }
+### Grass — 草地渲染
 
-    void  ADD_TRI(float3 p0,float3 p1,float3 p2,g2f o,inout TriangleStream<g2f> tristream)
-    {
-        ADD_VERT(p0,o,tristream);
-        ADD_VERT(p1,o,tristream);
-        ADD_VERT(p2,o,tristream);
-        // 每当构建一个三角形都需要调用一次tristream.RestartStrip();
-        tristream.RestartStrip();
-    }
+| 文件路径 | Shader 名称 | 功能描述 | 技术要点 |
+|----------|-------------|----------|----------|
+| `Grass/Shaders/Grass.shader` | `Roystan/Grass` | 草地渲染，几何着色器生成草叶 + 风扰动 | Vert/Frag/Geometry, Tessellation, SM 5.0, Wind Map |
+| `Grass/Shaders/TessellationExample.shader` | `Roystan/Tessellation Example` | 曲面细分示例 | Vert/Frag/Hull/Domain, SM 4.6, CustomTessellation.cginc |
 
-    // 几何着色器为单个调用输出的顶点的最大数量。对于我的理解就是你要单次执行最终输出结果的总的顶点数量。官方指出出于性能考虑，最大顶点数应尽可能小。
-    [maxvertexcount(9)]
-    // 输入 point line triangle lineadj triangleadj
-    // 输出: PointStream只显示点，LineStream只显示线，TriangleStream全显
-    void geom(triangle v2g IN[3], inout TriangleStream<g2f> tristream)
-    {
-        g2f o; 
-        //--------计算原模型三角面的法线
-        float3 edgeA = IN[1].vertex - IN[0].vertex;
-        float3 edgeB = IN[2].vertex - IN[0].vertex;
-        float3 normalFace = normalize(cross(edgeA, edgeB));
-        //-------
-        o.norg=-normalFace;
-        //根据模型三角面信息额外生成一个向外突出的锥体
-        float3 v0 = IN[0].vertex;
-        float3 v1 = IN[1].vertex;
-        float3 v2 = IN[2].vertex;
-        float3 v3 = (IN[0].vertex+IN[1].vertex+IN[2].vertex)/3 + normalFace * _Length;				
-        ADD_TRI(v0,v3,v2,o,tristream);
-        ADD_TRI(v0,v1,v3,o,tristream);
-        ADD_TRI(v2,v3,v1,o,tristream);
-    }
+## 子目录
+
+| 子目录 | 说明 |
+|--------|------|
+| `Example/` | 几何着色器基础示例（6 个 Shader） |
+| `Grass/` | 草地渲染系统（2 个 Shader + 1 个 cginc） |
+| `FromUnityShader/` | 外部合并的几何着色器资源（详见子目录 README） |
+
+## 技术说明
+
+几何着色器核心模式：
+```
+[maxvertexcount(N)]
+void geom(triangle v2g IN[3], inout TriangleStream<g2f> tristream) {
+    // 生成新顶点并追加到流
+    tristream.Append(o);
+    tristream.RestartStrip();
 }
 ```
 
+## 兼容性说明
+
+- 几何着色器需要 SM 4.0+，曲面细分需要 SM 4.6+
+- `Grass.shader` 同时使用几何着色器和曲面细分，需要 SM 5.0
+- 几何着色器并行度低，性能不如顶点/片段着色器，不适合移动端
+- `CustomTessellation.cginc` 为草地着色器提供曲面细分辅助函数

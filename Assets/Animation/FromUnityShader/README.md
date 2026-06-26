@@ -1,29 +1,26 @@
-# Animation
+# Animation / FromUnityShader
 
-Shader-driven animation effects, such as sprite sheet playback.
+外部合并到 Animation 分类的着色器动画资源。
 
-## File Overview
+## 来源说明
 
-- **Location:** Assets/Animation/FromUnityShader
-- **Total files:** 0
-- **Shaders:** 0
-- **C# Scripts:** 0
+从外部 Unity Shader 项目合并而来，按功能归入 Animation 分类。
 
-## Subfolders / Files
+## Shader 清单
 
+| 文件名 | Shader 名称 | 功能 | 修复状态 |
+|--------|-------------|------|----------|
+| — | — | 本目录当前无 Shader 文件 | — |
 
+> 本目录预留给外部合并的动画着色器。当前包含占位文件和共享资源。
 
-## Main Effects
+## 修复状态说明
 
-- Sprite-based animation shader
+- 无 Shader 文件需要修复
+- 已清理 `.meta.meta` 重复文件
+- 已移除旧版 UnityScript (`.js`) 文件
 
-## Compatibility Notes
+## 兼容性说明
 
-- Shaders use Unity's Built-in Render Pipeline (CG/HLSL).
-- Some files include `meta.meta` legacy Unity meta entries; they are preserved for compatibility.
-- Old UnityScript (`.js`) files have been removed where possible.
-
-## Notes / Cautions
-
-- Duplicate internal shader names have been renamed to avoid conflicts (e.g., `Custom/FluidEffect`, `Custom/SpriteEffect`).
-- Please verify material references after renaming shaders if you open the project in Unity.
+- 目录结构保持与项目整体一致
+- 后续添加的动画着色器应放入此目录

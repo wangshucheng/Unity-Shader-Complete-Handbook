@@ -1,29 +1,30 @@
-# Other
+# Other / FromUnityShader
 
-Miscellaneous shader assets and shared models.
+外部合并到 Other 分类的杂项资源。
 
-## File Overview
+## 来源说明
 
-- **Location:** Assets/Other/FromUnityShader
-- **Total files:** 0
-- **Shaders:** 0
-- **C# Scripts:** 0
+从外部 Unity Shader 项目合并而来，主要包含共享模型文件。
 
-## Subfolders / Files
+## 文件清单
 
-- **_model** (0 files, 0 shaders, 0 scripts)
+| 子目录/文件 | 说明 | 修复状态 |
+|---------------|------|----------|
+| `_model/` | 共享模型资源目录 | ✅ 已清理 `.meta.meta` 重复文件 |
 
-## Main Effects
+## Shader 清单
 
-- Miscellaneous shader resources and shared models
+| 文件名 | Shader 名称 | 功能 | 修复状态 |
+|--------|-------------|------|----------|
+| — | — | 本目录无 Shader 文件 | — |
 
-## Compatibility Notes
+## 修复状态说明
 
-- Shaders use Unity's Built-in Render Pipeline (CG/HLSL).
-- Some files include `meta.meta` legacy Unity meta entries; they are preserved for compatibility.
-- Old UnityScript (`.js`) files have been removed where possible.
+- 无 Shader 文件需要修复
+- 已清理 `.meta.meta` 重复文件
+- 保留 `_model` 目录供各分类共享使用
 
-## Notes / Cautions
+## 兼容性说明
 
-- Duplicate internal shader names have been renamed to avoid conflicts (e.g., `Custom/FluidEffect`, `Custom/SpriteEffect`).
-- Please verify material references after renaming shaders if you open the project in Unity.
+- 本目录无 Shader 文件
+- `_model` 目录中的模型资源可被多个分类的场景引用

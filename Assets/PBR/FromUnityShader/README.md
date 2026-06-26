@@ -1,29 +1,30 @@
-# PBR
+# PBR / FromUnityShader
 
-Physically based rendering examples and reference materials.
+外部合并到 PBR 分类的资源。
 
-## File Overview
+## 来源说明
 
-- **Location:** Assets/PBR/FromUnityShader
-- **Total files:** 19
-- **Shaders:** 0
-- **C# Scripts:** 0
+从外部 Unity Shader 项目合并而来，包含 PBR 演示用的模型资源。
 
-## Subfolders / Files
+## 文件清单
 
-- **_model** (19 files, 0 shaders, 0 scripts)
+| 子目录/文件 | 说明 | 修复状态 |
+|---------------|------|----------|
+| `_model/` | PBR 演示模型资源目录（岩石材质等） | ✅ 已清理 `.meta.meta` 重复文件 |
 
-## Main Effects
+## Shader 清单
 
-- PBR rock material examples and demo scene references
+| 文件名 | Shader 名称 | 功能 | 修复状态 |
+|--------|-------------|------|----------|
+| — | — | 本目录无 Shader 文件 | — |
 
-## Compatibility Notes
+## 修复状态说明
 
-- Shaders use Unity's Built-in Render Pipeline (CG/HLSL).
-- Some files include `meta.meta` legacy Unity meta entries; they are preserved for compatibility.
-- Old UnityScript (`.js`) files have been removed where possible.
+- 无 Shader 文件需要修复
+- 已清理 `.meta.meta` 重复文件
+- 模型资源供 PBR 分类下的 Shader 演示使用
 
-## Notes / Cautions
+## 兼容性说明
 
-- Duplicate internal shader names have been renamed to avoid conflicts (e.g., `Custom/FluidEffect`, `Custom/SpriteEffect`).
-- Please verify material references after renaming shaders if you open the project in Unity.
+- 本目录无 Shader 文件
+- 模型纹理资源（如岩石 PBR 贴图集）可被 `PBR/` 下任意 Shader 使用
