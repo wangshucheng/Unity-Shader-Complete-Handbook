@@ -1,4 +1,4 @@
-# UnityShaderComplete
+# Unity Shader Complete Handbook
 
 Unity Shader 完全手册 —— 涵盖动画、光照、PBR、后处理、几何着色器、阴影等 17 个分类的 130 个 Shader 文件，是学习和参考 Unity 内置管线着色器编写的完整合集。
 
