@@ -180,18 +180,3 @@ UI 毛玻璃模糊效果，支持 Stencil 遮罩和 Alpha 裁剪。
 - [HoloShield — AdultLink](https://github.com/AdultLink/HoloShield) — 科幻风格 Shader
 - [Unity Shader 入门精要 — 冯乐乐](https://github.com/candycat1992/Unity_Shaders_Book) — 配套着色器源码
 
-## 合并记录
-
-本项目将多个外部 Unity Shader 资源合并到 `Assets/{Category}/FromUnityShader/` 目录下，按功能分类整理。
-
-| 分类 | 来源 | 说明 |
-|------|------|------|
-| Effect/FromUnityShader | shader_for_unity-master 等 | 流体、水波、老电影、GodRay、皮肤/眼睛/植物/毛发渲染 |
-| PostProcessing/FromUnityShader | shader_for_unity-master、PPSSPP | 抗锯齿、景深、HDR/Bloom、扭曲、CRT、降噪 |
-| Lighting/FromUnityShader | 教材配套 | 顶点/像素漫反射示例 |
-| Cubemap/FromUnityShader | 外部教程 | SimpleReflection |
-| Skybox/FromUnityShader | Quake3 资源 | darkskies 天空盒 |
-| PBR/FromUnityShader | 外部模型资源 | PBR 演示模型 |
-| Other/FromUnityShader | 共享资源 | _model 目录 |
-
-> 各 FromUnityShader 子目录的详细说明请参见对应 `README.md`。
